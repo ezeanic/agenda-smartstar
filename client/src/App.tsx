@@ -1,28 +1,24 @@
 import * as React from 'react';
 import './App.css';
+import {ContactEntry} from './ContactEntry'
+import {FetchContacts} from './API_Interface'
 
 import logo from './logo.svg';
 
 type AppProps = {api_url: string}
 
-class ContactEntry {
-    firstName: String
-    lastName: String
-    email: String
-    company: String
-    phone: Number
-    createdDate: Date
-}
-
 class SimpleTable extends React.Component <{entries:ContactEntry[]},{}> {
     public render() {
         let rows:any = []
-        for (let entry of this.props.entries) {
-            rows.push(<tr><td className="App-table">{entry.firstName}</td> <td className="App-table">{entry.lastName}</td></tr>)
+        let entries = this.props.entries
+        for (let ix in entries) {
+            rows.push(<tr key={ix}><td className="App-table">{entries[ix].firstName}</td><td className="App-table">{entries[ix].lastName}</td></tr>)
         }
         return <table  className="App-center">
+                <tbody>
                 <tr><th className="App-table">First Name</th><th className="App-table">Last Name</th></tr>
                 {rows}
+               </tbody>
                </table>
     }
 }
@@ -36,19 +32,14 @@ class App extends React.Component <AppProps, {contactList: ContactEntry []}> {
     this.doFetch()
   }
   
-  public doFetch() {
-    fetch(this.props.api_url)
-    .then( (response) => { 
-            return response.json(); }
-            )
-    .then( (json) => {
-            this.setState({contactList: json})
+  public async doFetch() {
+    if (this.props.api_url.length) {
+        FetchContacts(this.props.api_url, (theList: ContactEntry[]) => {
+          this.setState({contactList: theList})
         })
-    .catch( (err) => {
-            console.log(`err : ${err}`);
-    })
+    }
   }
-
+    
   public render() {
   
     return (
