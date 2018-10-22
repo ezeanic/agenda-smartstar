@@ -1,0 +1,30 @@
+@startuml
+
+title Agenda Application Component Structure
+
+interface HTTP as HTP1
+interface HTTP as HTP2
+
+package "React UI (client)" {
+  HTP1 - [Development Server]
+}
+
+package "REST API (server)" {
+    HTP2 -- [Express REST API Server]
+}
+
+database "MongoDB" {
+  folder "Collections" {
+    [Contacts]
+  }
+}
+
+[Development Server] --> HTP2
+[Express REST API Server] --> [Contacts]
+
+@enduml
+
+
+
+
+
