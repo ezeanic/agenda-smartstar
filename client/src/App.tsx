@@ -31,15 +31,15 @@ class App extends React.Component <AppProps, {contactList: ContactEntry []}> {
     this.state = {contactList: emptyContactList}
     this.doFetch()
   }
-  
+
   public async doFetch() {
-    if (this.props.api_url.length) {
+    if (this.props.api_url.length) { // only fetch if the api_url is real
         FetchContacts(this.props.api_url, (theList: ContactEntry[]) => {
           this.setState({contactList: theList})
         })
     }
   }
-    
+
   public render() {
   
     return (

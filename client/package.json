@@ -10,8 +10,8 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "API_URL=http://api:3001 react-scripts-ts test --env=jsdom",
-    "test:debug": "API_URL=http://api:3001 react-scripts-ts --inspect-brk=0.0.0.0:9229 test --runInBand --env=jsdom",
+    "test": "react-scripts-ts test --env=jsdom",
+    "test:debug": "react-scripts-ts --inspect-brk=0.0.0.0:9229 test --runInBand --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
   "proxy": "http://api:3001/",
