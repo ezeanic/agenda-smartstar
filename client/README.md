@@ -1,3 +1,15 @@
+Agenda UI Sources
+=================
+
+To actaully run the app, you want to run "docker-compose up" in the root dir.
+
+If you just want to run the client side tests:
+
+docker run --rm -it -v $PWD:/work -v /work/node_modules agenda_ui yarn test
+
+Bootstrap README
+================
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
