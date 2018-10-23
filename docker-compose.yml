@@ -15,6 +15,7 @@ services:
     volumes:
      - ./server:/work/
      - /work/node_modules
+     - /work/dist
     ports:
      - "3001:3001"
      - "9230:9229"
