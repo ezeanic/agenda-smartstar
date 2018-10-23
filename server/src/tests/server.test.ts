@@ -9,7 +9,7 @@ let MOCK_DATA = {firstName: 'Joe',
                phone: 1234567890}
 
 describe('The server', () => {
-/* 
+
     it('fetches without crashing', () => {
         fetch(url)
         .then(res => res.json())
@@ -19,7 +19,6 @@ describe('The server', () => {
         })
         .catch(err => console.log("Error!:", err))
     })
- */
     
     it('can post some data', () => {
         fetch(url,
