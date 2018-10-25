@@ -1,8 +1,8 @@
 type QuestionEntry = {
     question: String,
     postDate: Date,
-    upVoteCookies: Number,
-    downVoteCookies: Number,
+    upVoteCookies: Array<string>,
+    downVoteCookies: Array<string>,
     flagCount: Number,
 }
 

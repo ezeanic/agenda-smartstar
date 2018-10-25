@@ -1,4 +1,5 @@
 import {ContactEntry} from './ContactEntry'
+import {QuestionEntry} from './QuestionEntry'
 
 function FetchContacts(api_url: string, responseHandler: (theList:ContactEntry[]) => void) {
     fetch(api_url)
@@ -48,4 +49,4 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
     })
 }
 
-export {FetchQuestions}
+export {FetchQuestions, FetchContacts}
