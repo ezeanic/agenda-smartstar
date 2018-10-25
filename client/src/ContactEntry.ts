@@ -1,11 +1,10 @@
 
-type ContactEntry = {
-    firstName: String,
-    lastName: String,
-    email: String,
-    company: String,
-    phone: Number,
-    created?: Date
+type QuestionEntry = {
+    question: String,
+    upVotes: number,
+    downVotes: number,
+    postDate: Date,
+    flag: number,
 }
 
-export {ContactEntry}
+// export {QuestionEntry}

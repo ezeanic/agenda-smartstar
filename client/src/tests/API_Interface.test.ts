@@ -1,17 +1,14 @@
-import {FetchContacts} from '../API_Interface'
-import {ContactEntry} from '../ContactEntry'
+import {MOCK_DATA} from '../Mockdata'
+import {FetchQuestions} from '../API_Interface'
+import {QuestionEntry} from '../QuestionEntry'
 
-let url = process.env.API_URL + '/contact/' || '/contact/'
 
-let MOCK_DATA = [{ firstName: 'Jim',
-               lastName: 'Smith',
-               email: 'foo@bar.com',
-               company: 'blah',
-               phone: 123456 }]
+let url = process.env.API_URL + '/question/' || '/question/'
 
-it('fetches contacts without crashing', () => {
+
+it('fetches questions without crashing', () => {
     fetch.mockResponseOnce(JSON.stringify(MOCK_DATA))
-    FetchContacts(url, (theList: ContactEntry[]) => {
+    FetchQuestions(url, (theList: QuestionEntry[]) => {
         expect(theList).toEqual(MOCK_DATA)
     }
 });

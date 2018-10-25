@@ -1,20 +1,19 @@
-import {ContactEntry} from './ContactEntry'
+import {QuestionEntry} from './QuestionEntry'
 
-function FetchContacts(api_url: string, responseHandler: (theList:ContactEntry[]) => void) {
+function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry[]) => void) {
     fetch(api_url)
-    .then( (response) => { 
+    .then( (response) => {
             return response.json(); }
             )
     .then( (json) => {
-        let theList: ContactEntry[] = []
+        let theList: QuestionEntry[] = []
         for (let item of json) {
             theList.push({
-                firstName:item.firstName,
-                lastName:item.lastName,
-                email:item.email,
-                company:item.company,
-                phone:item.phone,
-                created:item.created
+                question:item.question,
+                postDate:new Date(item.postDate),
+                upVoteCookies:item.upVoteCookies,
+                downVoteCookies:item.downVoteCookies,
+                flagCount:item.flagCount,
             })
         }
         responseHandler(theList)
@@ -24,4 +23,4 @@ function FetchContacts(api_url: string, responseHandler: (theList:ContactEntry[]
     })
 }
 
-export {FetchContacts}
+export {FetchQuestions}
