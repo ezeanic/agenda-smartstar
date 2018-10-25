@@ -12,7 +12,7 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
         let rows:any = []
         let entries = this.props.entries
         for (let ix in entries) {
-            rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td><td className="App-table">{entries[ix].upVotes}</td></tr>)
+            rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td><td className="App-table">{entries[ix].upVoteCookies}</td></tr>)
         }
         return <table  className="App-center">
                 <tbody>

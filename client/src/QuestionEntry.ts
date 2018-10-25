@@ -1,8 +1,8 @@
-type QuestionEntry [] = {
+type QuestionEntry = {
     question: String,
     postDate: Date,
-    upVoteCookies: String[],
-    downVoteCookies: String[],
+    upVoteCookies: Array<string>,
+    downVoteCookies: Array<string>,
     flagCount: Number,
 }
 
