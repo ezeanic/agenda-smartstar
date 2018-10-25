@@ -2,13 +2,23 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const QuestionSchema = new Schema({
-    id: {
-        type: String
-    },
-    question: {
+export const ContactSchema = new Schema({
+    firstName: {
         type: String,
-        required: 'Enter a question'
+        required: 'Enter a first name'
+    },
+    lastName: {
+        type: String,
+        required: 'Enter a last name'
+    },
+    email: {
+        type: String            
+    },
+    company: {
+        type: String            
+    },
+    phone: {
+        type: Number            
     },
     created_date: {
         type: Date,

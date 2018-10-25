@@ -1,56 +1,29 @@
-import * as mongoose from 'mongoose';
-import { QuestionSchema } from '../models/QuestionModel';
-import { Request, Response } from 'express';
+import {Request, Response, NextFunction} from "express"
+import { ContactController } from "../controllers/contactController"
 
-const Question = mongoose.model('Question', QuestionSchema);
-
-export class QuestionController{
-
-    public addNewQuestion (req: Request, res: Response) {                
-        let newQuestion = new Question(req.body);
+export class ContactRoutes { 
     
-        newQuestion.save((err, Question) => {
-            if(err){
-                res.send(err);
-            }    
-            res.json(Question);
-        });
-    }
-
-    public getQuestions (req: Request, res: Response) {           
-        Question.find({}, (err, Question) => {
-            if(err){
-                res.send(err);
-            }
-            res.json(Question);
-        });
-    }
-
-    public getQuestionWithID (req: Request, res: Response) {           
-        Question.findById(req.params.QuestionId, (err, Question) => {
-            if(err){
-                res.send(err);
-            }
-            res.json(Question);
-        });
-    }
-
-    public updateQuestion (req: Request, res: Response) {           
-        Question.findOneAndUpdate({ _id: req.params.QuestionId }, req.body, { new: true }, (err, Question) => {
-            if(err){
-                res.send(err);
-            }
-            res.json(Question);
-        });
-    }
-
-    public deleteQuestion (req: Request, res: Response) {           
-        Question.remove({ _id: req.params.QuestionId }, (err, Question) => {
-            if(err){
-                res.send(err);
-            }
-            res.json({ message: 'Successfully deleted Question!'});
-        });
-    }
+    public contactController: ContactController = new ContactController() 
     
+    public routes(app): void {   
+        
+        app.route('/contact')
+        .get((req: Request, res: Response, next: NextFunction) => {
+            // middleware
+            console.log(`Request from: ${req.originalUrl}`)
+            console.log(`Request type: ${req.method}`)
+            next()
+        }, this.contactController.getContacts)        
+
+        // POST endpoint
+        .post(this.contactController.addNewContact)
+
+        // Contact detail
+        app.route('/contact/:contactId')
+        // get specific contact
+        .get(this.contactController.getContactWithID)
+        .put(this.contactController.updateContact)
+        .delete(this.contactController.deleteContact)
+
+    }
 }
