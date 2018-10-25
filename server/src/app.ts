@@ -1,6 +1,6 @@
 import * as express from "express"
 import * as bodyParser from "body-parser"
-import { ContactRoutes } from "./routes/contactRoutes"
+import { QuestionRoutes } from "./routes/questionRoutes"
 import { AppRoutes } from "./routes/appRoutes"
 import * as mongoose from "mongoose"
 
@@ -8,14 +8,14 @@ class App {
 
     public app: express.Application
     public approuter: AppRoutes = new AppRoutes()
-    public contactrouter: ContactRoutes = new ContactRoutes()
+    public questionrouter: QuestionRoutes = new QuestionRoutes()
     public mongoUrl: string = 'mongodb://mongo/testdb'
 
     constructor() {
         this.app = express()
         this.config()
         this.approuter.routes(this.app)
-        this.contactrouter.routes(this.app)
+        this.questionrouter.routes(this.app)
         this.mongoConnect()
     }
 

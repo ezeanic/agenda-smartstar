@@ -1,55 +1,55 @@
 import * as mongoose from 'mongoose';
-import { ContactSchema } from '../models/contactModel';
+import { QuestionSchema } from '../models/QuestionModel';
 import { Request, Response } from 'express';
 
-const Contact = mongoose.model('Contact', ContactSchema);
+const Question = mongoose.model('Question', QuestionSchema);
 
-export class ContactController{
+export class QuestionController{
 
-    public addNewContact (req: Request, res: Response) {                
-        let newContact = new Contact(req.body);
+    public addNewQuestion (req: Request, res: Response) {                
+        let newQuestion = new Question(req.body);
     
-        newContact.save((err, contact) => {
+        newQuestion.save((err, Question) => {
             if(err){
                 res.send(err);
             }    
-            res.json(contact);
+            res.json(Question);
         });
     }
 
-    public getContacts (req: Request, res: Response) {           
-        Contact.find({}, (err, contact) => {
+    public getQuestions (req: Request, res: Response) {           
+        Question.find({}, (err, Question) => {
             if(err){
                 res.send(err);
             }
-            res.json(contact);
+            res.json(Question);
         });
     }
 
-    public getContactWithID (req: Request, res: Response) {           
-        Contact.findById(req.params.contactId, (err, contact) => {
+    public getQuestionWithID (req: Request, res: Response) {           
+        Question.findById(req.params.QuestionId, (err, Question) => {
             if(err){
                 res.send(err);
             }
-            res.json(contact);
+            res.json(Question);
         });
     }
 
-    public updateContact (req: Request, res: Response) {           
-        Contact.findOneAndUpdate({ _id: req.params.contactId }, req.body, { new: true }, (err, contact) => {
+    public updateQuestion (req: Request, res: Response) {           
+        Question.findOneAndUpdate({ _id: req.params.QuestionId }, req.body, { new: true }, (err, Question) => {
             if(err){
                 res.send(err);
             }
-            res.json(contact);
+            res.json(Question);
         });
     }
 
-    public deleteContact (req: Request, res: Response) {           
-        Contact.remove({ _id: req.params.contactId }, (err, contact) => {
+    public deleteQuestion (req: Request, res: Response) {           
+        Question.remove({ _id: req.params.QuestionId }, (err, Question) => {
             if(err){
                 res.send(err);
             }
-            res.json({ message: 'Successfully deleted contact!'});
+            res.json({ message: 'Successfully deleted Question!'});
         });
     }
     

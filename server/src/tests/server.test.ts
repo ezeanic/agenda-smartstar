@@ -2,11 +2,9 @@ import fetch from 'node-fetch'
 
 let url=process.env.API_URL
 
-let MOCK_DATA = {firstName: 'Joe',
-               lastName: 'Smith',
-               email: 'joesmith@gmail.com',
-               company: 'google',
-               phone: 1234567890}
+let MOCK_DATA = {id: '2563r2thwehbfjwehbrnoerw12',
+               question: 'How is our budget?'
+                               }
 
 describe('The server', () => {
 

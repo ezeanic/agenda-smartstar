@@ -1,29 +1,29 @@
 import {Request, Response, NextFunction} from "express"
-import { ContactController } from "../controllers/contactController"
+import { QuestionController } from "../controllers/questionController"
 
-export class ContactRoutes { 
+export class QuestionRoutes { 
     
-    public contactController: ContactController = new ContactController() 
+    public questionController: QuestionController = new QuestionController() 
     
     public routes(app): void {   
         
-        app.route('/contact')
+        app.route('/question')
         .get((req: Request, res: Response, next: NextFunction) => {
             // middleware
             console.log(`Request from: ${req.originalUrl}`)
             console.log(`Request type: ${req.method}`)
             next()
-        }, this.contactController.getContacts)        
+        }, this.questionController.getQuestion)        
 
         // POST endpoint
-        .post(this.contactController.addNewContact)
+        .post(this.questionController.addNewQuestion)
 
-        // Contact detail
-        app.route('/contact/:contactId')
-        // get specific contact
-        .get(this.contactController.getContactWithID)
-        .put(this.contactController.updateContact)
-        .delete(this.contactController.deleteContact)
+        // Question detail
+        app.route('/question/:questionId')
+        // get specific Question
+        .get(this.questionController.getQuestionWithID)
+        .put(this.questionController.updateQuestion)
+        .delete(this.questionController.deleteQuestion)
 
     }
 }
