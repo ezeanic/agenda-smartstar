@@ -1,29 +1,56 @@
-import {Request, Response, NextFunction} from "express"
-import { ContactController } from "../controllers/contactController"
+import * as mongoose from 'mongoose';
+import { ContactSchema } from '../models/contactModel';
+import { Request, Response } from 'express';
 
-export class ContactRoutes { 
+const Contact = mongoose.model('Contact', ContactSchema);
+
+export class ContactController{
+
+    public addNewContact (req: Request, res: Response) {                
+        let newContact = new Contact(req.body);
     
-    public contactController: ContactController = new ContactController() 
-    
-    public routes(app): void {   
-        
-        app.route('/contact')
-        .get((req: Request, res: Response, next: NextFunction) => {
-            // middleware
-            console.log(`Request from: ${req.originalUrl}`)
-            console.log(`Request type: ${req.method}`)
-            next()
-        }, this.contactController.getContacts)        
-
-        // POST endpoint
-        .post(this.contactController.addNewContact)
-
-        // Contact detail
-        app.route('/contact/:contactId')
-        // get specific contact
-        .get(this.contactController.getContactWithID)
-        .put(this.contactController.updateContact)
-        .delete(this.contactController.deleteContact)
-
+        newContact.save((err, contact) => {
+            if(err){
+                res.send(err);
+            }    
+            res.json(contact);
+        });
     }
+
+    public getContacts (req: Request, res: Response) {           
+        Contact.find({}, (err, contact) => {
+            if(err){
+                res.send(err);
+            }
+            res.json(contact);
+        });
+    }
+
+    public getContactWithID (req: Request, res: Response) {           
+        Contact.findById(req.params.contactId, (err, contact) => {
+            if(err){
+                res.send(err);
+            }
+            res.json(contact);
+        });
+    }
+
+    public updateContact (req: Request, res: Response) {           
+        Contact.findOneAndUpdate({ _id: req.params.contactId }, req.body, { new: true }, (err, contact) => {
+            if(err){
+                res.send(err);
+            }
+            res.json(contact);
+        });
+    }
+
+    public deleteContact (req: Request, res: Response) {           
+        Contact.remove({ _id: req.params.contactId }, (err, contact) => {
+            if(err){
+                res.send(err);
+            }
+            res.json({ message: 'Successfully deleted contact!'});
+        });
+    }
+    
 }
