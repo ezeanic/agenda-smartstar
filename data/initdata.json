@@ -1,2 +1,2 @@
-{"_id":{"$oid":"5bcb43fb3738c5003a3200b8"},"firstName":"Joe","lastName":"Smith","email":"joesmith@gmail.com","company":"google","phone":1234567890,"created_date":{"$date":"2018-10-20T15:04:27.962Z"},"__v":0}
+{"_id":{"$oid":"5bcb43fb3738c5003a3200b8"},"Question":"can we get better parking?","Post date":{"$date":"2018-10-20T15:04:27.962Z"},"__v":0},"upvotes":5,"downvotes":3,"flag": true,"created_date":{"$date":"2018-10-20T15:04:27.962Z"},"__v":0}
 {"_id":{"$oid":"5bcb44463738c5003a3200b9"},"firstName":"Sam","lastName":"Jones","email":"samjones@gmail.com","company":"google","phone":1234567890,"created_date":{"$date":"2018-10-20T15:05:42.096Z"},"__v":0}

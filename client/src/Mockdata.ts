@@ -4,6 +4,5 @@ let MOCK_DATA = [{ question: 'This is a question',
                upVoteCookies: ["1","2","3"],
                downVoteCookies: ["1","2","3"],
                flagCount: 12 }]
-            
 
-               export {MOCK_DATA}
+export {MOCK_DATA}
