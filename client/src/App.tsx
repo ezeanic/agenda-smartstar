@@ -13,11 +13,14 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
         let entries = this.props.entries
         debugger
         for (let ix in entries) {
-            rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td><td className="App-table">{entries[ix].upVoteCookies}</td></tr>)
+            rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td>
+            <td className="App-table">{<button type="button" id="likeButton">Like</button>}</td>
+            <td className="App-table">{<button type="button" id="dislikeButton">Dislike</button>}</td>
+            </tr>)
         }
         return <table  className="App-center">
                 <tbody>
-                <tr><th className="App-table">Question</th><th className="App-table">Like/Dislike</th></tr>
+                <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
                 {rows}
                </tbody>
                </table>
