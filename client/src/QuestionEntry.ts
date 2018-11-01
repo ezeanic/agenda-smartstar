@@ -1,8 +1,10 @@
 type QuestionEntry = {
     question: String,
     postDate: Date,
-    upVoteCookies: Array<string>,
-    downVoteCookies: Array<string>,
+    numUpVotes: Array<string>,
+    canUpVote: Boolean;
+    numDownVotes: Array<string>,
+    canDownVote: Boolean,
     flagCount: Number,
 }
 
