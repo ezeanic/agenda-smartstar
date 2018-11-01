@@ -16,6 +16,7 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
                 numDownVotes:item.numDownVotes,
                 canDownVote:item.canDownVote,
                 flagCount:item.flagCount,
+                _id:item._id
             })
         }
         responseHandler(theList)
@@ -23,6 +24,29 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
     .catch( (err) => {
             console.log(`err : ${err}`);
     })
+}
+
+
+function Voting(_id: string, vote: string){
+if(){
+    
+}
+}
+
+function UpVote(_id: string){
+    return Voting(_id, "upVote")
+}
+
+function DownVote(_id: string){
+    return Voting(_id, "downVote")
+}
+
+function NotUpVote(_id: string){
+    return Voting(_id, "notUpVote")
+}
+
+function NotDownVote(_id: string){
+    return Voting(_id, "notDownVote")
 }
 
 export {FetchQuestions}

@@ -6,6 +6,7 @@ type QuestionEntry = {
     numDownVotes: Array<string>,
     canDownVote: Boolean,
     flagCount: Number,
+    _id: string,
 }
 
 export {QuestionEntry}
