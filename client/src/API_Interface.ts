@@ -12,7 +12,9 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
                 question:item.question,
                 postDate:new Date(item.postDate),
                 upVoteCookies:item.upVoteCookies,
+                canUpVote:item.canUpVote,
                 downVoteCookies:item.downVoteCookies,
+                canDownVote:item.canDownVote,
                 flagCount:item.flagCount,
             })
         }
