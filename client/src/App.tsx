@@ -11,28 +11,33 @@ type AppProps = {api_url: string}
 
 class UpButton extends React.Component <{entry:QuestionEntry}> {
   public render() {
+    
     let entry = this.props.entry
     if(entry.canUpVote == true){
-      return <button type="button" id="likeButton">Like</button>
+      return <button  type="button" id="likeButton">Like</button>
     } else {
-      return <button type="button" id="unLikeButton">unLike</button>
+      return <button  type="button" id="unLikeButton">unLike</button>
+    }
+    
     }
   }
-}
+
 
 class DownButton extends React.Component <{entry:QuestionEntry}> {
   public render() {
+   
     let entry = this.props.entry
       if(entry.canDownVote == true){
-        return <button type="button" id="dislikeButton">Like</button>
+        return <button  type="button" id="dislikeButton">Dislike</button>
       } else {
-        return <button type="button" id="unDislikeButton">unDislike</button>
+        return <button  type="button" id="unDislikeButton">unDislike</button>
       }
     }
 }
 
 class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
     public render() {
+     
         let rows:any = []
         let entries = this.props.entries
         for (let ix in entries) {
@@ -43,15 +48,21 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
         }
         return <table  className="App-center">
                 <tbody>
-                <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
+                <tr><th className="App-table">Question</th><th className="App-table">like</th><th className="App-table">Dislike</th></tr>
                 {rows}
                </tbody>
                </table>
     }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
-
+class App extends React.Component <AppProps, {questionList: QuestionEntry []}, {}> {
+ 
+  flipValueUp =() =>{
+    this.setState({canUpVote: !this.state.canUpVote});
+  }
+  flipValueDown =() =>{
+    this.setState({canDownVote: !this.state.canDownVote});
+  }
   //constructor(props: AppProps) {
     //super(props)
   //  let emptyQuestionList: QuestionEntry[] = []
