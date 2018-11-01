@@ -1,4 +1,4 @@
-import {QuestionEntry} from './QuestionEntry'
+import {QuestionEntry, VoteValidation} from './QuestionEntry'
 
 function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry[]) => void) {
     fetch(api_url)
@@ -26,27 +26,38 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
     })
 }
 
-
-function Voting(_id: string, vote: string){
-if(){
-    
-}
-}
-
-function UpVote(_id: string){
-    return Voting(_id, "upVote")
-}
-
-function DownVote(_id: string){
-    return Voting(_id, "downVote")
+function FetchVoting(api_url: string, responseHandler: (authentication:VoteValidation) => void) {
+    fetch(api_url)
+    .then( (response) => {
+            return response.json(); }
+            )
+    .then( (json) => {
+        responseHandler(json)
+    })
+    .catch( (err) => {
+            console.log(`err : ${err}`);
+    })
 }
 
-function NotUpVote(_id: string){
-    return Voting(_id, "notUpVote")
-}
 
-function NotDownVote(_id: string){
-    return Voting(_id, "notDownVote")
-}
+// function Voting(_id: string, vote: string){
+//     return;
+// }
 
-export {FetchQuestions}
+// function UpVote(_id: string){
+//     return Voting(_id, "upVote")
+// }
+
+// function DownVote(_id: string){
+//     return Voting(_id, "downVote")
+// }
+
+// function NotUpVote(_id: string){
+//     return Voting(_id, "notUpVote")
+// }
+
+// function NotDownVote(_id: string){
+//     return Voting(_id, "notDownVote")
+// }
+
+export {FetchQuestions, FetchVoting}

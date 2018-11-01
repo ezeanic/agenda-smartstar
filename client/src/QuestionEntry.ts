@@ -9,4 +9,9 @@ type QuestionEntry = {
     _id: string,
 }
 
-export {QuestionEntry}
+type VoteValidation = {
+    err: boolean,
+    msg: string
+}
+
+export {QuestionEntry, VoteValidation}
