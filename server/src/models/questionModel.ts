@@ -10,8 +10,19 @@ export const QuestionSchema = new Schema({
         type: String,
         required: 'Enter a question'
     },
-    created_date: {
+
+    upVoteCookies: [{ type: String}],
+    
+    downVoteCookies: [{type: String}],
+
+    flagCount: {
+        type: Number,
+        default: 0
+    },
+
+    postDate: {
         type: Date,
         default: Date.now
     }
+
 });
