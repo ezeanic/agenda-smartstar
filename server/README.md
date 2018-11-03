@@ -18,4 +18,7 @@ or:
 
     docker run --rm -it --net agenda_default --link agenda_api_1 -v $PWD:/work -v /work/node_modules -e "API_URL=http://api:3001/contact" agenda_api yarn test
 
+If you want to debug using the chrome debugger tools, from the 'agenda' direectory,  you can try:
+
+   docker-compose run -p 3001:3001 -p 9229:9229 api node --require ts-node/register --inspect-brk=0.0.0.0:9229 src/server.ts 
 
