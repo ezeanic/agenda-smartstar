@@ -20,5 +20,12 @@ or:
 
 If you want to debug using the chrome debugger tools, from the 'agenda' direectory,  you can try:
 
-   docker-compose run -p 3001:3001 -p 9229:9229 api node --require ts-node/register --inspect-brk=0.0.0.0:9229 src/server.ts 
+    docker-compose run -p 3001:3001 -p 9229:9229 api node --require ts-node/register --inspect-brk=0.0.0.0:9229 src/server.ts 
+   
+You use curl to test voting:
 
+    curl -v --cookie "usertag=testuser" http://127.0.0.1:3001/vote/upVote/5bd43947ce5f85003a572ead
+    curl -v --cookie "usertag=testuser" http://127.0.0.1:3001/vote/upVote/5bd43947ce5f85003a572ead
+    curl -v --cookie "usertag=testuser" http://127.0.0.1:3001/vote/downVote/5bd43947ce5f85003a572ead
+    
+    
