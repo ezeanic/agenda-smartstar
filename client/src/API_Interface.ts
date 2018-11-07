@@ -40,24 +40,24 @@ function FetchVoting(api_url: string, responseHandler: (authentication:VoteValid
 }
 
 
-// function Voting(_id: string, vote: string){
-//     return;
-// }
+function Voting(root_url: string,_id: string, vote: string, responseHandler: (authentication:VoteValidation) => void){
+    //create url and send to fetch voting
+    FetchVoting(root_url + "/vote/:" + vote + "/:" + _id ,responseHandler)
+}
 
-// function UpVote(_id: string){
-//     return Voting(_id, "upVote")
-// }
+function UpVote(root_url: string,_id: string, responseHandler: (authentication:VoteValidation) => void){
+    return Voting(root_url ,_id, "upVote", responseHandler)
+}
 
-// function DownVote(_id: string){
-//     return Voting(_id, "downVote")
-// }
+function DownVote(root_url: string,_id: string, responseHandler: (authentication:VoteValidation) => void){
+    return Voting(root_url,_id, "downVote",responseHandler)
+}
+function NotUpVote(root_url: string,_id: string, responseHandler: (authentication:VoteValidation) => void){
+    return Voting(root_url,_id, "notUpVote", responseHandler)
+}
 
-// function NotUpVote(_id: string){
-//     return Voting(_id, "notUpVote")
-// }
+function NotDownVote(root_url: string,_id: string, responseHandler: (authentication:VoteValidation) => void){
+    return Voting(root_url,_id, "notDownVote", responseHandler)
+}
 
-// function NotDownVote(_id: string){
-//     return Voting(_id, "notDownVote")
-// }
-
-export {FetchQuestions, FetchVoting}
+export {FetchQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote}

@@ -19,4 +19,8 @@ let VoteFailMOCK_DATA = {
     err: true,
     msg: "not successful"
 }
-export {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA}
+
+let upVoteMOCK_DATA = {
+    root_url: "Test_Url",
+}
+export {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA,upVoteMOCK_DATA}

@@ -1,9 +1,10 @@
-import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA} from '../Mockdata'
-import {FetchQuestions, FetchVoting} from '../API_Interface'
+import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA} from '../Mockdata'
+import {FetchQuestions, FetchVoting, UpVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
 
 let questionUrl = process.env.API_URL + '/question/' || '/question/'
 let voteUrl = process.env.API_URL + '/vote/' || '/vote/'
+let _id = process.env.API_URL + '/_id/' || '/_id/'
 
 it('fetches questions without crashing', () => {
     fetch.mockResponseOnce(JSON.stringify(QuestionMOCK_DATA))
@@ -22,6 +23,12 @@ it('test upVote', () => {
 it('test downVote', () => {
     fetch.mockResponseOnce(JSON.stringify(VoteFailMOCK_DATA))
     FetchVoting(voteUrl, (authentication: VoteValidation) => {
+        expect(authentication.err).toEqual(true)
+    }
+});
+it('test upVote', () => {
+    fetch.mockResponseOnce(JSON.stringify(upVoteMOCK_DATA))
+    UpVote(voteUrl,_id,(authentication: VoteValidation) => {
         expect(authentication.err).toEqual(true)
     }
 });
