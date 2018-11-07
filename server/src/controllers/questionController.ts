@@ -27,7 +27,7 @@ export class QuestionController{
     }
 
     public getQuestionWithID (req: Request, res: Response) {           
-        Question.findById(req.params.QuestionId, (err, Question) => {
+        Question.findById(req.params.questionId, (err, Question) => {
             if(err){
                 res.send(err);
             }
@@ -36,7 +36,7 @@ export class QuestionController{
     }
 
     public updateQuestion (req: Request, res: Response) {           
-        Question.findOneAndUpdate({ _id: req.params.QuestionId }, req.body, { new: true }, (err, Question) => {
+        Question.findOneAndUpdate({ _id: req.params.questionId }, req.body, { new: true }, (err, Question) => {
             if(err){
                 res.send(err);
             }
@@ -45,7 +45,7 @@ export class QuestionController{
     }
 
     public deleteQuestion (req: Request, res: Response) {           
-        Question.remove({ _id: req.params.QuestionId }, (err, Question) => {
+        Question.remove({ _id: req.params.questionId }, (err, Question) => {
             if(err){
                 res.send(err);
             }
