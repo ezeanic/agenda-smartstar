@@ -2,20 +2,26 @@ import * as express from "express"
 import * as bodyParser from "body-parser"
 import { QuestionRoutes } from "./routes/questionRoutes"
 import { AppRoutes } from "./routes/appRoutes"
+import { VoteRoutes } from "./routes/voteRoutes"
+import {StatsRoutes } from "./routes/statsRoutes"
 import * as mongoose from "mongoose"
-
+import * as cookieParser from "cookie-parser"
 class App {
 
     public app: express.Application
     public approuter: AppRoutes = new AppRoutes()
     public questionrouter: QuestionRoutes = new QuestionRoutes()
+    public statsrouter: StatsRoutes = new StatsRoutes()
     public mongoUrl: string = 'mongodb://mongo/testdb'
+    public voterouter: VoteRoutes = new VoteRoutes()
 
     constructor() {
         this.app = express()
         this.config()
         this.approuter.routes(this.app)
         this.questionrouter.routes(this.app)
+        this.voterouter.routes(this.app)
+        this.statsrouter.routes(this.app)
         this.mongoConnect()
     }
 
@@ -23,6 +29,15 @@ class App {
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: false }))
         // serving static files 
+        this.app.use(cookieParser())
+        
+        this.app.use((req: express.Request, res: express.Response, next: express.NextFunction)  => {
+            if (req.cookies.usertag == undefined) {
+                const randomNumber=Math.random().toString().slice(2)
+                res.cookie('usertag',randomNumber, { maxAge: 24*365*3600*1000, httpOnly: true })
+            }
+            next()
+        })
         this.app.use(express.static('public'))
     }
 

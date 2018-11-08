@@ -15,10 +15,10 @@ export const QuestionSchema = new Schema({
     
     downVoteCookies: [{type: String}],
 
-    flagCount: {
+    /*flagCount: {
         type: Number,
         default: 0
-    },
+    },*/
 
     postDate: {
         type: Date,

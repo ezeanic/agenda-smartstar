@@ -12,6 +12,8 @@ run the tests from another window. So from the root:
 and then in the 'server' directory:
 
     docker run --rm -it --net agenda_default --link agenda_api_1:api -v $PWD:/work -v /work/node_modules -e "API_URL=http://api:3001/contact" agenda_api sh
+
+    docker run --rm -it --net agenda_default --link agenda_api_1:api -v $PWD:/work -v /work/node_modules -e "API_URL=http://api:3001/question" agenda_api sh
     # yarn test
 
 or:

@@ -34,25 +34,27 @@ export class VoteController{
 
                     case"notUpVote":
                     let choice = QuestionObject.upVoteCookies.indexOf(req.cookies.usertag)
-                    if( choice != -1){ // remove
-                        QuestionObject.upVoteCookies.splice(choice,1)
-                    }
                     if(QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) == -1){ // remove
                         throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: U345yhedjhisdj")
                     }
-                    QuestionObject.upVoteCookies.push(req.cookies.usertag)
+                    if( choice != -1){ // remove
+                        QuestionObject.upVoteCookies.splice(choice,1)
+                    }
+                    
+                    //QuestionObject.upVoteCookies.push(req.cookies.usertag)
                     return QuestionObject.save()
 
 
                     case"notDownVote":
                     let userSelection = QuestionObject.downVoteCookies.indexOf(req.cookies.usertag)
+                    if(QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) == -1){ //  (== -1 means it is not there)
+                        throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: Djfdklfndknf23")
+                    }
                     if( userSelection != -1){ // remove
                         QuestionObject.downVoteCookies.splice(userSelection,1)
                     }
-                    if(QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) == -1){ // remove
-                        throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: Djfdklfndknf23")
-                    }
-                    QuestionObject.downVoteCookies.push(req.cookies.usertag)
+                    
+                    //QuestionObject.downVoteCookies.push(req.cookies.usertag)
                     return QuestionObject.save()
 
                 default:
