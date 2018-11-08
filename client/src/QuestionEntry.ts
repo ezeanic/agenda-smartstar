@@ -1,9 +1,9 @@
 type QuestionEntry = {
     question: String,
     postDate: Date,
-    numUpVotes: Array<string>,
+    numUpVotes: Number,
     canUpVote: Boolean;
-    numDownVotes: Array<string>,
+    numDownVotes: Number,
     canDownVote: Boolean,
     flagCount: Number,
     _id: string,
@@ -14,9 +14,4 @@ type VoteValidation = {
     msg: string
 }
 
-type upVoteValidation = {
-    root_url: string
-    _id: string,
-}
-
-export {QuestionEntry, VoteValidation, upVoteValidation}
+export {QuestionEntry, VoteValidation}

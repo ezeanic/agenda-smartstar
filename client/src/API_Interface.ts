@@ -22,7 +22,7 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
         responseHandler(theList)
     })
     .catch( (err) => {
-            console.log(`err : ${err}`);
+        responseHandler([])
     })
 }
 
@@ -35,10 +35,9 @@ function FetchVoting(api_url: string, responseHandler: (authentication:VoteValid
         responseHandler(json)
     })
     .catch( (err) => {
-        responseHandler({err: true, msg: "there is an error"})
+        responseHandler({err: true, msg: "Error: cannot validate."})
     })
 }
-
 
 function Voting(root_url: string,_id: string, vote: string, responseHandler: (authentication:VoteValidation) => void){
     //create url and send to fetch voting

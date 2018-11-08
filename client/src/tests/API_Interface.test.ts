@@ -1,5 +1,5 @@
 import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA} from '../Mockdata'
-import {FetchQuestions, FetchVoting, UpVote} from '../API_Interface'
+import {FetchQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
 
 /* jest-fetch-mock is documented here: https://www.npmjs.com/package/jest-fetch-mock */
@@ -17,6 +17,13 @@ describe("testing fetchers in network happy paths", ()  => {
         fetch.mockResponseOnce(JSON.stringify(QuestionMOCK_DATA))
         FetchQuestions(rootUrl+"/question", (theList: QuestionEntry[]) => {
             expect(theList).toEqual(QuestionMOCK_DATA)
+        })
+    })
+
+    it('tests FetchQuestions catch error', () => {
+        fetch.mockReject(new Error('Error: List is empty.'))
+        FetchQuestions(rootUrl+"/question",(theList: QuestionEntry[]) => {
+            expect(theList.length).toEqual(0)
         })
     })
 
@@ -42,5 +49,43 @@ describe("testing fetchers in network happy paths", ()  => {
         //assert on the times called and arguments given to fetch
         expect(fetch.mock.calls.length).toEqual(1)
         expect(fetch.mock.calls[0][0]).toEqual(rootUrl+'/vote/upVote/'+_id)
+    })
+
+    it('calls downVote and returns data to me', () => {
+        fetch.mockResponseOnce(JSON.stringify(VotePassMOCK_DATA))
+        DownVote(rootUrl,_id,(authentication: VoteValidation) => {
+            expect(authentication.err).toEqual(false)
+        })
+        //assert on the times called and arguments given to fetch
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual(rootUrl+'/vote/downVote/'+_id)
+    })
+
+    it('calls notUpVote and returns data to me', () => {
+        fetch.mockResponseOnce(JSON.stringify(VoteFailMOCK_DATA))
+        NotUpVote(rootUrl,_id,(authentication: VoteValidation) => {
+            expect(authentication.err).toEqual(true)
+        })
+        //assert on the times called and arguments given to fetch
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual(rootUrl+'/vote/notUpVote/'+_id)
+    })
+
+    it('calls notDownVote and returns data to me', () => {
+        fetch.mockResponseOnce(JSON.stringify(VoteFailMOCK_DATA))
+        NotDownVote(rootUrl,_id,(authentication: VoteValidation) => {
+            expect(authentication.err).toEqual(true)
+        })
+        //assert on the times called and arguments given to fetch
+        expect(fetch.mock.calls.length).toEqual(1)
+        expect(fetch.mock.calls[0][0]).toEqual(rootUrl+'/vote/notDownVote/'+_id)
+    })
+
+    it('tests Fetchvoting catch error', () => {
+        fetch.mockReject(new Error('Error: cannot validate'))
+        NotDownVote(rootUrl,_id,(authentication: VoteValidation) => {
+        expect(authentication.err).toEqual(true)
+        expect(authentication.msg).toEqual("Error: cannot validate.")
+        })
     })
 })
