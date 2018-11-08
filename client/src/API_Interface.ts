@@ -23,6 +23,7 @@ function FetchQuestions(api_url: string, responseHandler: (theList:QuestionEntry
     })
     .catch( (err) => {
         responseHandler([])
+        console.log(err.message)
     })
 }
 
@@ -35,7 +36,7 @@ function FetchVoting(api_url: string, responseHandler: (authentication:VoteValid
         responseHandler(json)
     })
     .catch( (err) => {
-        responseHandler({err: true, msg: "Error: cannot validate."})
+        responseHandler({err: true, msg: err.message})
     })
 }
 

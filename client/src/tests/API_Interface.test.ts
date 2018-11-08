@@ -82,7 +82,7 @@ describe("testing fetchers in network happy paths", ()  => {
     })
 
     it('tests Fetchvoting catch error', () => {
-        fetch.mockReject(new Error('Error: cannot validate'))
+        fetch.mockReject(new Error('Error: cannot validate.'))
         NotDownVote(rootUrl,_id,(authentication: VoteValidation) => {
         expect(authentication.err).toEqual(true)
         expect(authentication.msg).toEqual("Error: cannot validate.")
