@@ -1,4 +1,4 @@
-import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA} from '../Mockdata'
+import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA} from '../Mockdata'
 import {FetchQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
 
