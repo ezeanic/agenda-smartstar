@@ -1,11 +1,12 @@
 type QuestionEntry = {
     question: String,
     postDate: Date,
-    upVoteCookies: Array<string>,
-    canUpVote: boolean,
-    downVoteCookies: Array<string>,
-    canDownVote: boolean,
+    numUpVotes: Number,
+    canUpVote: Boolean;
+    numDownVotes: Number,
+    canDownVote: Boolean,
     flagCount: Number,
+    _id: string,
 }
 
 export {QuestionEntry}

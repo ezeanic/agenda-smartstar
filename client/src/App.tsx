@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {QuestionEntry} from './QuestionEntry'
-import {FetchQuestions} from './API_Interface'
+import {FetchQuestions, upVote, downVote, notUpVote, notDownVote} from './API_Interface'
 import {MOCK_DATA} from './Mockdata'
 
 
@@ -9,30 +9,34 @@ import logo from './logo.svg';
 
 type AppProps = {api_url: string}
 
-class UpButton extends React.Component <{entry:QuestionEntry}> {
+class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual upVote and notUpVote funcitons
     let entry = this.props.entry
     if(entry.canUpVote == true){
-      return <button onClick={function(){alert('Call upVote');}} type="button" id="likeButton">Like</button>
+      return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
     } else {
-      return <button onClick={function(){alert('Call notUpVote');}} type="button" id="unLikeButton">unLike</button>
+      return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
     }
 
     }
   }
 
 
-class DownButton extends React.Component <{entry:QuestionEntry}> {
+class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
     let entry = this.props.entry
       if(entry.canDownVote == true){
-        return <button onClick={function(){alert('Call downVote');}}  type="button" id="dislikeButton">Dislike</button>
+        return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
       } else {
-        return <button onClick={function(){alert('Call notDownVote');}} type="button" id="unDislikeButton">unDislike</button>
+        return <button onClick={this.props.clickHandler} type="button" id={entry._id + ":unDislike"}>unDislike</button>
       }
     }
+}
+
+public handleClick(e:any) {
+
 }
 
 class InputBar extends React.Component {
@@ -53,8 +57,8 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
         let entries = this.props.entries
         for (let ix in entries) {
             rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td>
-            <td className="App-table"><UpButton entry={entries[ix]}/></td>
-            <td className="App-table"><DownButton entry={entries[ix]}/></td>
+            <td className="App-table"><UpButton entry={entries[ix]}/>upVoteCookies.size()</td>
+            <td className="App-table"><DownButton entry={entries[ix]}/>downVoteCookies.size()</td>
             </tr>)
         }
         return <table  className="App-center">
