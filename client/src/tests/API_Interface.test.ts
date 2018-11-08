@@ -1,11 +1,12 @@
-import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA} from '../Mockdata'
-import {FetchQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
+import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, PostQuestionMOCK_DATA} from '../Mockdata'
+import {FetchQuestions, PostQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
 
 /* jest-fetch-mock is documented here: https://www.npmjs.com/package/jest-fetch-mock */
 
 let rootUrl = process.env.API_URL
 let _id = "qwerty"
+let question = "this is a new question"
 
 describe("testing fetchers in network happy paths", ()  => {
     
@@ -24,6 +25,13 @@ describe("testing fetchers in network happy paths", ()  => {
         fetch.mockReject(new Error('Error: List is empty.'))
         FetchQuestions(rootUrl+"/question",(theList: QuestionEntry[]) => {
             expect(theList.length).toEqual(0)
+        })
+    })
+
+    it('post questions without crashing', () => {
+        fetch.mockResponseOnce(JSON.stringify(PostQuestionMOCK_DATA))
+        PostQuestions(rootUrl+"/question", question, (theQuestion: QuestionEntry) => {
+            expect(theQuestion).toEqual(JSON.stringify(PostQuestionMOCK_DATA))
         })
     })
 
@@ -88,4 +96,6 @@ describe("testing fetchers in network happy paths", ()  => {
         expect(authentication.msg).toEqual("Error: cannot validate.")
         })
     })
+
+
 })
