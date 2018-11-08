@@ -35,14 +35,14 @@ function FetchVoting(api_url: string, responseHandler: (authentication:VoteValid
         responseHandler(json)
     })
     .catch( (err) => {
-            console.log(`err : ${err}`);
+        responseHandler({err: true, msg: "there is an error"})
     })
 }
 
 
 function Voting(root_url: string,_id: string, vote: string, responseHandler: (authentication:VoteValidation) => void){
     //create url and send to fetch voting
-    FetchVoting(root_url + "/vote/:" + vote + "/:" + _id ,responseHandler)
+    FetchVoting(root_url + "/vote/" + vote + "/" + _id ,responseHandler)
 }
 
 function UpVote(root_url: string,_id: string, responseHandler: (authentication:VoteValidation) => void){
