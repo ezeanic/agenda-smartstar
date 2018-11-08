@@ -4,76 +4,66 @@ import { Request, Response } from 'express';
 
 const Question = mongoose.model('Question', QuestionSchema);
 
-export class QuestionController{
-
-    public addNewQuestion (req: Request, res: Response) {                
-        let newQuestion = new Question(req.body);
-    
-        newQuestion.save((err, Question) => {
-            if(err){
-                res.send(err);
-            }    
-            res.json(Question);
-        });
-    }
-
- 
-    public getQuestionWithID (req: Request, res: Response) {           
-        Question.findById(req.params.questionId, (err, QuestionObject) => { //check voteVals 
-            if(err){
-                res.send(err);
-            }
-
+export class VoteController{
+    public handleVote (req: Request, res: Response) {
+        //debugger
+        Question.findById(req.params.questionId)
+        .then((QuestionObject) => { //check voteVals 
             switch(req.params.voteVal){
                 case"upVote":
-                    if( QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) != -1){ // remove and save
-                        delete QuestionObject.downVoteCookies[req.cookies.usertag]
-                        QuestionObject.save( (err) => { 
-                            if(err)  {
-                                res.send(err);
-                            }
-                            res.send({err:false, msg:"Yeah!"});
-                        })
+                    let dix = QuestionObject.downVoteCookies.indexOf(req.cookies.usertag)
+                    if( dix != -1){ // remove
+                        QuestionObject.downVoteCookies.splice(dix,1)
                     }
-                    else if( QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) != -1){
-                        res.send({err:true, msg:"Dang!"}); // send error 
+                    if(QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) != -1){ // remove
+                        throw new Error("Sorry, cannot upVote more than once")
                     }
-                    else { // add to upVote
-                        QuestionObject.upVoteCookies.push(req.cookies.usertag)
-                    }
-                    break;
+                    QuestionObject.upVoteCookies.push(req.cookies.usertag)
+                    return QuestionObject.save()
 
                 case"downVote":
-                    if( QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) != -1){
-                        
-                        res.send({err:true, msg:"Dang!"}); // send error 
+                    let uix = QuestionObject.upVoteCookies.indexOf(req.cookies.usertag)
+                    if( uix != -1){ // remove
+                        QuestionObject.upVoteCookies.splice(uix,1)
                     }
-                    else if( QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) != -1){
-                        // remove from upVote 
-                        delete QuestionObject.upVoteCookies[req.cookies.usertag]
-                        QuestionObject.save( (err) => { 
-                            if(err)  {
-                                res.send(err);
-                            }
-                            res.send({err:false, msg:"Yeah!"});
-                        })
+                    if(QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) != -1){ // remove
+                        throw new Error("Sorry, cannot downVote more than once")
                     }
-                    else {
-                        //add to downVote
-                        QuestionObject.upVoteCookies.push(req.cookies.usertag)
-                        QuestionObject.save( (err) => { 
-                            if(err)  {
-                                res.send(err);
-                            }
-                            res.send({err:false, msg:"Yeah!"});
-                        })
-                    }
-                    break;
-            }// switch
-                
+                    QuestionObject.downVoteCookies.push(req.cookies.usertag)
+                    return QuestionObject.save()
 
-            res.json(QuestionObject);
-        });
+                    case"notUpVote":
+                    let choice = QuestionObject.upVoteCookies.indexOf(req.cookies.usertag)
+                    if( choice != -1){ // remove
+                        QuestionObject.upVoteCookies.splice(choice,1)
+                    }
+                    if(QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) == -1){ // remove
+                        throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: U345yhedjhisdj")
+                    }
+                    QuestionObject.upVoteCookies.push(req.cookies.usertag)
+                    return QuestionObject.save()
+
+
+                    case"notDownVote":
+                    let userSelection = QuestionObject.downVoteCookies.indexOf(req.cookies.usertag)
+                    if( userSelection != -1){ // remove
+                        QuestionObject.downVoteCookies.splice(userSelection,1)
+                    }
+                    if(QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) == -1){ // remove
+                        throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: Djfdklfndknf23")
+                    }
+                    QuestionObject.downVoteCookies.push(req.cookies.usertag)
+                    return QuestionObject.save()
+
+                default:
+                    throw new Error("voteVal action not implmented")
+            }
+        })
+        .then((updatedQuestion) => {
+            return res.json({msg: 'model updated', err: false})
+        })
+        .catch((errorMsg) => {
+            return res.json({msg: errorMsg.message, err:true})
+        })
     }
-
 }

@@ -1,10 +1,10 @@
 import {Request, Response, NextFunction} from "express"
 import { QuestionController } from "../controllers/questionController"
-import { voteController } from "../controllers/voteController"
+import { VoteController } from "../controllers/voteController"
 
-export class QuestionRoutes { 
+export class VoteRoutes { 
     
-    public questionController: QuestionController = new QuestionController() 
+    public VoteController: QuestionController = new QuestionController() 
     
     public routes(app): void {   
         
@@ -12,7 +12,7 @@ export class QuestionRoutes {
         // Question detail
         app.route('/vote/:voteVal/:questionId')
         // get specific Question
-        .put(this.voteController.updateQuestion)
+        .put(this.VoteController.updateQuestion)
   
 
     }
