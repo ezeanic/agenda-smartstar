@@ -5,6 +5,9 @@ let MOCK_DATA = [{ question: 'This is a question',
                canUpVote: true,
                numDownVotes: 27,
                canDownVote: true,
-               flagCount: 12}]
+               flagCount: 12,
+                _id: "dab"
+            }]
+               
 
 export {MOCK_DATA}

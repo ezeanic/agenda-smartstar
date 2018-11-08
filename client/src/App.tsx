@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {QuestionEntry} from './QuestionEntry'
-import {FetchQuestions, upVote, downVote, notUpVote, notDownVote} from './API_Interface'
+import {FetchQuestions} from './API_Interface'
 import {MOCK_DATA} from './Mockdata'
 
 
@@ -12,7 +12,7 @@ type AppProps = {api_url: string}
 class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual upVote and notUpVote funcitons
-    let entry = this.props.entry
+     let entry = this.props.entry
     if(entry.canUpVote == true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
     } else {
@@ -26,7 +26,7 @@ class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:a
 class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
-    let entry = this.props.entry
+     let entry = this.props.entry
       if(entry.canDownVote == true){
         return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
       } else {
@@ -35,9 +35,7 @@ class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e
     }
 }
 
-public handleClick(e:any) {
 
-}
 
 class InputBar extends React.Component {
   render() {
@@ -50,15 +48,15 @@ class InputBar extends React.Component {
   }
 }
 
-class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
+class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandler?:(e:any)=>void}> {
     public render() {
 
         let rows:any = []
         let entries = this.props.entries
         for (let ix in entries) {
             rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td>
-            <td className="App-table"><UpButton entry={entries[ix]}/>upVoteCookies.size()</td>
-            <td className="App-table"><DownButton entry={entries[ix]}/>downVoteCookies.size()</td>
+            <td className="App-table"><UpButton entry={entries[ix]}/>numUpVotes</td>
+            <td className="App-table"><DownButton entry={entries[ix]}/>numDownVotes</td>
             </tr>)
         }
         return <table  className="App-center">
@@ -70,14 +68,26 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
     }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry []}, {}> {
-  //Do we need these or are they somebody elses job?
-  // public flipValueUp =() =>{
-  //   this.setState({canUpVote: !this.state.canUpVote});
-  // }
-  // public flipValueDown =() =>{
-  //   this.setState({canDownVote: !this.state.canDownVote});
-  // }
+class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
+  public handleClick(e:any) {
+    let [id, direct] = e.target.id.split(':')
+    let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
+            return(obj._id === id)
+    })
+    if (ix != -1){
+        let newQuestionList =[...this.state.questionList]
+        if (direct === 'up'){
+          newQuestionList[ix].numUpVotes += 1
+          newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
+    
+        } else if(direct === 'down'){
+          newQuestionList[ix].numDownVotes += 1
+          newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
+        }
+    }
+    
+    }
+  
   constructor(props: AppProps) {
     super(props)
    let emptyQuestionList: QuestionEntry[] = []
@@ -102,7 +112,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}, {
           <h1 className="App-title">Welcome to React Questions</h1>
         </header>
         <InputBar/>
-        <SimpleTable entries={MOCK_DATA/*this.state.questionList*/}/>
+        <SimpleTable entries={MOCK_DATA} clickHandler ={this.handleClick}/>
       </div>
     );
   }
