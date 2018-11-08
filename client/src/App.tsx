@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {QuestionEntry} from './QuestionEntry'
-//import {FetchQuestions} from './API_Interface'
+import {FetchQuestions} from './API_Interface'
 import {MOCK_DATA} from './Mockdata'
 
 
@@ -11,33 +11,44 @@ type AppProps = {api_url: string}
 
 class UpButton extends React.Component <{entry:QuestionEntry}> {
   public render() {
-    
+    //replace the alert functions with the actual upVote and notUpVote funcitons
     let entry = this.props.entry
     if(entry.canUpVote == true){
-      return <button  type="button" id="likeButton">Like</button>
+      return <button onClick={function(){alert('Call upVote');}} type="button" id="likeButton">Like</button>
     } else {
-      return <button  type="button" id="unLikeButton">unLike</button>
+      return <button onClick={function(){alert('Call notUpVote');}} type="button" id="unLikeButton">unLike</button>
     }
-    
+
     }
   }
 
 
 class DownButton extends React.Component <{entry:QuestionEntry}> {
   public render() {
-   
+    //replace the alert functions with the actual downVote and notDownVote funcitons
     let entry = this.props.entry
       if(entry.canDownVote == true){
-        return <button  type="button" id="dislikeButton">Dislike</button>
+        return <button onClick={function(){alert('Call downVote');}}  type="button" id="dislikeButton">Dislike</button>
       } else {
-        return <button  type="button" id="unDislikeButton">unDislike</button>
+        return <button onClick={function(){alert('Call notDownVote');}} type="button" id="unDislikeButton">unDislike</button>
       }
     }
 }
 
+class InputBar extends React.Component {
+  render() {
+    return (
+      <form>
+        <input type="text" placeholder="Input Question" />
+      </form>
+      //Send input to postQuestion function
+    );
+  }
+}
+
 class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
     public render() {
-     
+
         let rows:any = []
         let entries = this.props.entries
         for (let ix in entries) {
@@ -48,7 +59,7 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
         }
         return <table  className="App-center">
                 <tbody>
-                <tr><th className="App-table">Question</th><th className="App-table">like</th><th className="App-table">Dislike</th></tr>
+                <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
                 {rows}
                </tbody>
                </table>
@@ -56,27 +67,27 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[]},{}> {
 }
 
 class App extends React.Component <AppProps, {questionList: QuestionEntry []}, {}> {
- 
-  flipValueUp =() =>{
-    this.setState({canUpVote: !this.state.canUpVote});
-  }
-  flipValueDown =() =>{
-    this.setState({canDownVote: !this.state.canDownVote});
-  }
-  //constructor(props: AppProps) {
-    //super(props)
-  //  let emptyQuestionList: QuestionEntry[] = []
-    //this.state = {questionList: emptyQuestionList}
-    //this.doFetch()
-  //}
-
-  // public async doFetch() {
-  //   if (this.props.api_url.length) { // only fetch if the api_url is real
-  //       FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
-  //         this.setState({questionList: theList})
-  //       })
-  //   }
+  //Do we need these or are they somebody elses job?
+  // public flipValueUp =() =>{
+  //   this.setState({canUpVote: !this.state.canUpVote});
   // }
+  // public flipValueDown =() =>{
+  //   this.setState({canDownVote: !this.state.canDownVote});
+  // }
+  constructor(props: AppProps) {
+    super(props)
+   let emptyQuestionList: QuestionEntry[] = []
+    this.state = {questionList: emptyQuestionList}
+    this.doFetch()
+  }
+
+  public async doFetch() {
+    if (this.props.api_url.length) { // only fetch if the api_url is real
+        FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
+          this.setState({questionList: theList})
+        })
+    }
+  }
 
   public render() {
 
@@ -86,11 +97,11 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}, {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React Questions</h1>
         </header>
-        <SimpleTable entries={MOCK_DATA}/>
+        <InputBar/>
+        <SimpleTable entries={MOCK_DATA/*this.state.questionList*/}/>
       </div>
     );
   }
 }
 
 export default App;
-//this.state.questionList
