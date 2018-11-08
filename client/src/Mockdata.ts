@@ -13,9 +13,9 @@ let PostQuestionMOCK_DATA = {
     question: 'this is a new question',
     postDate: new Date(Date.now()),
     numUpVotes: 0,
-    canUpVote: "true",
+    canUpVote: true,
     numDownVotes: 0,
-    canDownVote: "true",
+    canDownVote: true,
     flagCount: 0,
     _id: "0001"
 }

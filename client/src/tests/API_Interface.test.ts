@@ -31,7 +31,7 @@ describe("testing fetchers in network happy paths", ()  => {
     it('post questions without crashing', () => {
         fetch.mockResponseOnce(JSON.stringify(PostQuestionMOCK_DATA))
         PostQuestions(rootUrl+"/question", question, (theQuestion: QuestionEntry) => {
-            expect(theQuestion).toEqual(JSON.stringify(PostQuestionMOCK_DATA))
+            expect(theQuestion).toEqual(PostQuestionMOCK_DATA)
         })
     })
 
