@@ -14,4 +14,9 @@ type VoteValidation = {
     msg: string
 }
 
-export {QuestionEntry, VoteValidation}
+type upVoteValidation = {
+    root_url: string
+    _id: string,
+}
+
+export {QuestionEntry, VoteValidation, upVoteValidation}

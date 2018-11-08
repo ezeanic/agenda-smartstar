@@ -1,6 +1,6 @@
 import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA} from '../Mockdata'
 import {FetchQuestions, FetchVoting, UpVote} from '../API_Interface'
-import {QuestionEntry, VoteValidation} from '../QuestionEntry'
+import {QuestionEntry, VoteValidation, upVoteValidation} from '../QuestionEntry'
 
 let questionUrl = process.env.API_URL + '/question/' || '/question/'
 let voteUrl = process.env.API_URL + '/vote/' || '/vote/'
@@ -28,7 +28,7 @@ it('test downVote', () => {
 });
 it('test upVote', () => {
     fetch.mockResponseOnce(JSON.stringify(upVoteMOCK_DATA))
-    UpVote(voteUrl,_id,(authentication: VoteValidation) => {
-        expect(authentication.err).toEqual(true)
+    UpVote(voteUrl,_id,(authentication: upVoteValidation) => {
+        expect(authentication.  ).toEqual("Test_Url/vote:/upVote/:_id")
     }
 });
