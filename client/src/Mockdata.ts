@@ -2,9 +2,9 @@ let QuestionMOCK_DATA = [{
     question: 'This is a question',
     postDate: new Date(1953, 5, 12),
     numUpVotes: 6,
-    canUpVote: "false",
+    canUpVote: false,
     numDownVotes: 8,
-    canDownVote: "true",
+    canDownVote: true,
     flagCount: 12,
     _id: "0002"
     }]
