@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-let url = process.env.API_URL || '/contact/'
+let url  = process.env.REACT_APP_API_URL == undefined ? 'NONE' : process.env.REACT_APP_API_URL
 
 ReactDOM.render(
   <App api_url={url}/>,
