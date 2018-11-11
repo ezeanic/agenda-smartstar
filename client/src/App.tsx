@@ -9,7 +9,7 @@ import logo from './logo.svg';
 
 type AppProps = {api_url: string}
 
-class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
+export class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
@@ -23,7 +23,7 @@ class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:a
   }
 
 
-class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
+export class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
      let entry = this.props.entry
@@ -90,7 +90,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
   }
 
   public doFetch() {
-    if (this.props.api_url != 'NONE') { // only fetch if the api_url is real
+    if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
         FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
           this.setState({questionList: theList})
         })
@@ -129,7 +129,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
     let newQuestionList =[...this.state.questionList]
     switch (dir) {
         case 'like':
-            if (this.props.api_url != 'NONE') { // only fetch if the api_url is real
+            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
                 UpVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleUpVote(newQuestionList, ix)
@@ -141,7 +141,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break;
 
         case 'unLike':
-            if (this.props.api_url != 'NONE') { // only fetch if the api_url is real
+            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
                 NotUpVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleNotUpVote(newQuestionList, ix)
@@ -153,7 +153,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break
 
         case 'dislike':
-            if (this.props.api_url != 'NONE') { // only fetch if the api_url is real
+            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
                 DownVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleDownVote(newQuestionList, ix)
@@ -165,7 +165,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break
         
         case 'unDislike':
-            if (this.props.api_url != 'NONE') { // only fetch if the api_url is real
+            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
                 NotDownVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleNotDownVote(newQuestionList, ix)
@@ -187,7 +187,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React Questions</h1>
+          <h1 className="App-title">Welcome to React Questions ({process.env.REACT_APP_API_ENV})</h1>
         </header>
         <InputBar/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} />
