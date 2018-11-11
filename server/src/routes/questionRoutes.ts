@@ -18,7 +18,7 @@ export class QuestionRoutes {
         // POST endpoint
         .post(this.questionController.addNewQuestion)
 
-        // Question detail
+        // Question details
         app.route('/question/:questionId')
         // get specific Question
         .get(this.questionController.getQuestionWithID)
