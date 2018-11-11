@@ -4,10 +4,10 @@ import {QuestionEntry} from '../QuestionEntry'
 import {UpButton} from '../App'
 import App from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
-import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow } from 'enzyme';
+import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
+import { configure, shallow, mount } from 'enzyme'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new ReactSixteenAdapter() });
 
 describe('App UI tests', () => {
 
@@ -17,18 +17,27 @@ describe('App UI tests', () => {
         ReactDOM.unmountComponentAtNode(div)
     })
 
-    it('renders and reads H1 text', () => {
+    xit('renders and reads H1 text', () => {
         const wrapper = shallow(<App />)
-        const welcome = <h2>Welcome to React</h2>
-        expect(wrapper.contains(welcome)).toEqual(true)
+        const welcome = <h1>Welcome to React Questions ({process.env.REACT_APP_API_ENV})</h1>
+        console.log("Wrapper text:" + welcome.props.children.join(''))
+        expect(wrapper.find('.App-title').text() == welcome.props.children.join('')).toEqual(true)
     });
 
-    it('handles like click', () => {
+    it('upButton handles like click', () => {
         let fn = jest.fn()
-        const div = document.createElement('div')
         const anEntry = QuestionMOCK_DATA[0]
-        ReactDOM.render(<UpButton entry={anEntry}/>, div)
-        div.
+        let myUpButton = shallow(<UpButton entry={anEntry} clickHandler={fn}/>)
+        myUpButton.simulate('click')
+        expect(fn).toBeCalled()
+    })
+
+    it('upButton handles like click', () => {
+        let fn = jest.fn()
+        const anEntry = QuestionMOCK_DATA[0]
+        let myUpButton = mount(<UpButton entry={anEntry} clickHandler={fn}/>)
+        myUpButton.simulate('click')
+        expect(fn).toBeCalled()
     })
 
 })
