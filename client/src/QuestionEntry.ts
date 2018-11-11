@@ -1,9 +1,17 @@
 type QuestionEntry = {
     question: String,
     postDate: Date,
-    upVoteCookies: Array<string>,
-    downVoteCookies: Array<string>,
+    numUpVotes: Number,
+    canUpVote: Boolean;
+    numDownVotes: Number,
+    canDownVote: Boolean,
     flagCount: Number,
+    _id: string,
 }
 
-export {QuestionEntry}
+type VoteValidation = {
+    err: boolean,
+    msg: string
+}
+
+export {QuestionEntry, VoteValidation}
