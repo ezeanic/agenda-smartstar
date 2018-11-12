@@ -1,6 +1,5 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import App, {UpButton, SimpleTable} from '../App'
+import App from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
