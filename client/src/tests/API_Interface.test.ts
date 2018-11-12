@@ -96,6 +96,4 @@ describe("testing fetchers in network happy paths", ()  => {
         expect(authentication.msg).toEqual("Error: cannot validate.")
         })
     })
-
-
 })

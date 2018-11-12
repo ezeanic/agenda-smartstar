@@ -7,7 +7,12 @@ import {QuestionMOCK_DATA} from './Mockdata'
 
 import logo from './logo.svg';
 
-type AppProps = {api_url: string}
+type AppProps = {api_url: string, testQList?:QuestionEntry[]}
+
+function checkTest() {
+    // this works with VSCode and the shell environment
+    return (process.env.NODE_ENV === 'test') || (process.env.REACT_APP_API_ENV === 'test')
+}
 
 export class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
@@ -35,7 +40,7 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
     }
 }
 
-class InputBar extends React.Component {
+export class InputBar extends React.Component {
   render() {
     return (
       <form>
@@ -46,7 +51,7 @@ class InputBar extends React.Component {
   }
 }
 
-class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandler?:(e:any)=>void}> {
+export class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandler?:(e:any)=>void}> {
     public render() {
 
         let rows:any = []
@@ -68,6 +73,17 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandle
 
 class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
 
+    constructor(props: AppProps) {
+        super(props)
+        let defaultList: QuestionEntry[] = []
+        if (this.props.testQList) {
+            defaultList = this.props.testQList
+        }
+        this.state = {questionList: defaultList}
+        this.handleClick = this.handleClick.bind(this)
+    }
+  
+
     public handleClick(e:any) {
         let [id, direct] = e.target.id.split(':')
         let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
@@ -77,25 +93,20 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             this.doVote(ix, id, direct)
         }
     }
-  
-  constructor(props: AppProps) {
-    super(props)
-    let emptyList: QuestionEntry[] = []
-    this.state = {questionList: emptyList}
-    this.handleClick = this.handleClick.bind(this)
-  }
-  
-  public componentDidMount() {
-    this.doFetch()
-  }
+      
+    public componentDidMount() {
+        this.doFetch()
+    }
 
   public doFetch() {
-    if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
+    if (!checkTest()) { // only fetch if we're not in test mode
         FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
           this.setState({questionList: theList})
         })
     } else {
-        this.setState({questionList: QuestionMOCK_DATA})
+        if (this.props.testQList === undefined) {
+            this.setState({questionList: QuestionMOCK_DATA}) // if we haven't been send anything via props
+        }
     }
   }
 
@@ -129,7 +140,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
     let newQuestionList =[...this.state.questionList]
     switch (dir) {
         case 'like':
-            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
+            if (!checkTest()) { // only fetch if we're not in test mode
                 UpVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleUpVote(newQuestionList, ix)
@@ -141,7 +152,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break;
 
         case 'unLike':
-            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
+            if (!checkTest()) { // only fetch if we're not in test mode
                 NotUpVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleNotUpVote(newQuestionList, ix)
@@ -153,7 +164,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break
 
         case 'dislike':
-            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
+            if (!checkTest()) { // only fetch if we're not in test mode
                 DownVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleDownVote(newQuestionList, ix)
@@ -165,7 +176,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             break
         
         case 'unDislike':
-            if (process.env.REACT_APP_API_ENV != 'test') { // only fetch if we're not in test mode
+            if (!checkTest()) { // only fetch if we're not in test mode
                 NotDownVote(this.props.api_url, id, (result: VoteValidation) => {
                     if (!result.err) {
                         this.handleNotDownVote(newQuestionList, ix)
@@ -187,7 +198,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React Questions ({process.env.REACT_APP_API_ENV})</h1>
+          <h1 className="App-title">Welcome to React Questions ({process.env.NODE_ENV}:{process.env.REACT_APP_API_ENV})</h1>
         </header>
         <InputBar/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} />
