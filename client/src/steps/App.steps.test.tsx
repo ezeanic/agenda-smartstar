@@ -20,20 +20,21 @@ defineFeature(feature, (test) => {
         let oldLikeCount: number
 
         given('John, a new voter, wants to `Up Vote` a question', () => {
-            mockData = [...QuestionMOCK_DATA]
-            mockItem = mockData[0]
-            mockItem.canUpVote = true // make sure the user is able to vote
-            oldLikeCount=mockItem.numUpVotes // get the current numUpVotes
-            appWrapper = mount(<App testQList={mockData} api_url={''}/>)
-            appInstance = appWrapper.instance() as App
-        });
+            mockData = [...QuestionMOCK_DATA] // make a copy of the mock data
+            mockItem = mockData[0]            // grab one (there should be at least one!)
+            mockItem.canUpVote = true         // make sure the user is able to vote
+            oldLikeCount=mockItem.numUpVotes  // get the current numUpVotes
+            
+            appWrapper = mount(<App testQList={mockData} api_url={''}/>) // mount a wrapper
+            appInstance = appWrapper.instance() as App                   // get an instance
+        })
 
         when('John indicates he wants to `Up Vote`', () => {
             let theUpButton = appWrapper.find('[id="' + mockItem._id + ':like"]')  // find the button & click it
             theUpButton.simulate('click')
-        });
-
-        then('the up vote count on that item increases by one.', () => {
+        })
+    
+        then('the up vote count increases by one.', () => {
             let ix = appInstance.state.questionList.findIndex( (item: QuestionEntry) => {
                 return item._id === mockItem._id // get the index of the item with the correct _id.
             })
@@ -42,6 +43,6 @@ defineFeature(feature, (test) => {
             } else {
                 throw new Error("Where did it go? It was there a minute ago.")
             }
-        });
-    });
+        })
+    })
 })
