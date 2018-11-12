@@ -43,6 +43,7 @@ describe('App UI tests', () => {
         let theID=mockData[0]._id
         let theUpButton = theApp.find('[id="' + theID + ':unLike"]')  // find the button & click it
         theUpButton.simulate('click')
-        expect(theApp.instance().state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
+        let appInstance = theApp.instance() as App
+        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
     })
 })
