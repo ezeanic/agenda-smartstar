@@ -16,7 +16,7 @@ function FetchQuestions(root_url: string, responseHandler: (theList:QuestionEntr
                 numDownVotes:item.numDownVotes,
                 canDownVote:item.canDownVote,
                 flagCount:item.flagCount,
-                _id:item._id
+                _id:item._id,
             })
         }
         responseHandler(theList)

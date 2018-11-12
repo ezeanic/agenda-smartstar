@@ -9,16 +9,16 @@ let QuestionMOCK_DATA = [{
     _id: "0002"
     }]
 
-let PostQuestionMOCK_DATA = {
-    question: 'this is a new question',
-    postDate: new Date(Date.now()),
-    numUpVotes: 0,
-    canUpVote: true,
-    numDownVotes: 0,
-    canDownVote: true,
-    flagCount: 0,
-    _id: "0001"
-}
+let MOCK_DATA = [{ question: 'This is a question',
+               postDate: new Date(1953, 5, 12),
+               numUpVotes: 19,
+               canUpVote: true,
+               numDownVotes: 27,
+               canDownVote: true,
+               flagCount: 12,
+                _id: "dab"
+            }]
+               
 
 let VotePassMOCK_DATA = {
     err: false,
