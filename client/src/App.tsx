@@ -13,7 +13,7 @@ class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:a
   public render() {
     //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
-    if(entry.canUpVote == true){
+    if(entry.canUpVote){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
     } else {
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
@@ -27,16 +27,13 @@ class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
      let entry = this.props.entry
-      if(entry.canDownVote == true){
+      if(entry.canDownVote){
         return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
       } else {
         return <button onClick={this.props.clickHandler} type="button" id={entry._id + ":unDislike"}>unDislike</button>
       }
     }
 }
-
-
-
 class InputBar extends React.Component {
   render() {
     return (
@@ -55,8 +52,10 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandle
         let entries = this.props.entries
         for (let ix in entries) {
             rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td>
-            <td className="App-table"><UpButton entry={entries[ix]}/>numUpVotes</td>
-            <td className="App-table"><DownButton entry={entries[ix]}/>numDownVotes</td>
+            <td className="App-table"><UpButton entry={entries[ix]} clickHandler={this.props.clickHandler}/>
+            <span>{entries[ix].numUpVotes}</span></td>
+            <td className="App-table"><DownButton entry={entries[ix]} clickHandler={this.props.clickHandler}/>
+            <span>{entries[ix].numDownVotes}</span></td>
             </tr>)
         }
         return <table  className="App-center">
@@ -70,41 +69,47 @@ class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandle
 
 class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
   public handleClick(e:any) {
-    let [id, direct] = e.target.id.split(':')
-    let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
-            return(obj._id === id)
-    })
-    if (ix != -1){
-        let newQuestionList =[...this.state.questionList]
-        if (direct === 'up'){
-          newQuestionList[ix].numUpVotes += 1
-          newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
-    
-        } else if(direct === 'down'){
-          newQuestionList[ix].numDownVotes += 1
-          newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
-        }
-    }
-    
-    }
+           let [id, direct] = e.target.id.split(':')
+            let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
+                    return(obj._id === id)
+            })
+            if (ix != -1){
+                let newQuestionList =[...this.state.questionList]
+                if (direct === 'like'){
+                  newQuestionList[ix].numUpVotes += 1
+                  newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
+                } else if (direct === 'unLike'){
+                  newQuestionList[ix].numUpVotes -= 1
+                  newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
+                } else if (direct === 'dislike') {
+                  newQuestionList[ix].numDownVotes += 1
+                  newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
+                } else if (direct === 'unDislike') {
+                  newQuestionList[ix].numDownVotes -= 1
+                  newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
+                }
+                this.setState({questionList: newQuestionList})
+             }
+         }
   
   constructor(props: AppProps) {
     super(props)
-   let emptyQuestionList: QuestionEntry[] = []
-    this.state = {questionList: emptyQuestionList}
-    this.doFetch()
+    this.state = {questionList: MOCK_DATA}
+    this.handleClick = this.handleClick.bind(this)
   }
+  public componentDidMount() {
+    this.doFetch()
 
-  public async doFetch() {
+  public doFetch() {
     if (this.props.api_url.length) { // only fetch if the api_url is real
         FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
           this.setState({questionList: theList})
         })
+    } else{
+      this.setState({questionList: MOCK_DATA})
     }
   }
-
   public render() {
-
     return (
       <div className="App">
         <header className="App-header">
@@ -112,10 +117,10 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
           <h1 className="App-title">Welcome to React Questions</h1>
         </header>
         <InputBar/>
-        <SimpleTable entries={MOCK_DATA} clickHandler ={this.handleClick}/>
+        <SimpleTable entries ={this.state.questionList} clickHandler={this.handleClick}/>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
