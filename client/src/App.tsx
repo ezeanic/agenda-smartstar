@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import {QuestionEntry} from './QuestionEntry'
 import {FetchQuestions} from './API_Interface'
-import {MOCK_DATA} from './Mockdata'
+import {QuestionMOCK_DATA} from './Mockdata'
 
 
 import logo from './logo.svg';
@@ -11,7 +11,6 @@ type AppProps = {api_url: string}
 
 class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
-    //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
     if(entry.canUpVote){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
@@ -25,7 +24,6 @@ class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:a
 
 class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
-    //replace the alert functions with the actual downVote and notDownVote funcitons
      let entry = this.props.entry
       if(entry.canDownVote){
         return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
@@ -91,22 +89,24 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
                 this.setState({questionList: newQuestionList})
              }
          }
-  
+
   constructor(props: AppProps) {
     super(props)
-    this.state = {questionList: MOCK_DATA}
+    let emptyQuestionList: QuestionEntry[] = []
+    this.state = {questionList: emptyQuestionList}
+    this.state = {questionList: QuestionMOCK_DATA}
     this.handleClick = this.handleClick.bind(this)
   }
   public componentDidMount() {
     this.doFetch()
-
-  public doFetch() {
+}
+    public doFetch() {
     if (this.props.api_url.length) { // only fetch if the api_url is real
         FetchQuestions(this.props.api_url, (theList: QuestionEntry[]) => {
           this.setState({questionList: theList})
         })
     } else{
-      this.setState({questionList: MOCK_DATA})
+      this.setState({questionList: QuestionMOCK_DATA})
     }
   }
   public render() {
