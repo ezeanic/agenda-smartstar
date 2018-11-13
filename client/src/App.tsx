@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import {QuestionEntry, VoteValidation} from './QuestionEntry'
 import {FetchQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
+
 import {QuestionMOCK_DATA} from './Mockdata'
 
 
@@ -24,8 +25,8 @@ export class UpButton extends React.Component <{entry:QuestionEntry, clickHandle
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
     }
 
-    }
   }
+}
 
 
 export class DownButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
@@ -39,7 +40,6 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-
 export class InputBar extends React.Component {
   render() {
     return (
@@ -72,7 +72,6 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
 }
 
 class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
-
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
@@ -192,7 +191,6 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
     }
   }
 
-  
   public render() {
     return (
       <div className="App">
