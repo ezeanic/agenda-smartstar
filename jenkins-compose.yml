@@ -11,9 +11,6 @@ services:
   api:
     container_name: test_api_1
     image: agenda_api
-    ports:
-     - "3001:3001"
-     - "9230:9229"
     links:
      - mongo
     networks:
