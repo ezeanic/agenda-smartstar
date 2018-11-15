@@ -1,22 +1,37 @@
-version: "2"
+version: "2.2"
 services:
   ui:
     image: agenda_ui
     links:
      - api
+    container_name: test_ui_1
+    networks:
+     - network1
+    
   api:
+    container_name: test_api_1
     image: agenda_api
     ports:
      - "3001:3001"
      - "9230:9229"
     links:
      - mongo
+    networks:
+     - network1
+
   mongo:
-   image: mongo:4.0.2
-   ports:
-     - "27017:27017"
-   volumes:
-     - mongo_data:/data/db
+    container_name: test_mongo_1
+    image: mongo:4.0.2
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+     - network1
 
 volumes:
   mongo_data:
+  
+networks:
+  network1:
+    name: my-app-net
