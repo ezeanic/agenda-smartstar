@@ -5,7 +5,7 @@ import { Request, Response, NextFunction} from 'express';
 const Cookie = mongoose.model('Cookie', CookieSchema);
 
 export class CookieController{ 
-    static public handleCookie(req: Request, res: Response, next: NextFunction){
+    public static handleCookie(req: Request, res: Response, next: NextFunction){
         const randomNumber=Math.random().toString().slice(2)
         Cookie.find({userCookie: randomNumber})
         .then((result) =>{
