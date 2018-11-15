@@ -46,7 +46,7 @@ function PostQuestions(root_url: string, question: string, responseHandler: (the
         responseHandler(theQuestion)
     })
     .catch( (err) => {
-        responseHandler({question: err.message}as QuestionEntry)
+        responseHandler({question: err.message} as QuestionEntry)
         console.log(err.message)
     })
 } 

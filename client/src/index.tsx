@@ -4,10 +4,8 @@ import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-let url = process.env.API_URL || '/question/'
-
 ReactDOM.render(
-  <App api_url={url}/>,
+  <App api_url={''}/>,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

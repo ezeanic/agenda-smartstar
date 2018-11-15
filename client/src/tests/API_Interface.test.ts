@@ -1,6 +1,7 @@
 import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, PostQuestionMOCK_DATA} from '../Mockdata'
 import {FetchQuestions, PostQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
+import * as fetch from 'jest-fetch-mock'
 
 /* jest-fetch-mock is documented here: https://www.npmjs.com/package/jest-fetch-mock */
 
@@ -96,6 +97,4 @@ describe("testing fetchers in network happy paths", ()  => {
         expect(authentication.msg).toEqual("Error: cannot validate.")
         })
     })
-
-
 })

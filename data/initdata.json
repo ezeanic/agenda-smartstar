@@ -1,2 +1,2 @@
-{"_id":{"$oid":"5bcb43fb3738c5003a3200b8"},"Question":"can we get better parking?","Post date":{"$date":"2018-10-20T15:04:27.962Z"},"__v":0},"upvotes":5,"downvotes":3,"flag": true,"created_date":{"$date":"2018-10-20T15:04:27.962Z"},"__v":0}
-{"_id":{"$oid":"5bcb44463738c5003a3200b9"},"firstName":"Sam","lastName":"Jones","email":"samjones@gmail.com","company":"google","phone":1234567890,"created_date":{"$date":"2018-10-20T15:05:42.096Z"},"__v":0}
+{"_id":{"$oid":"5be984b8dee50b003887a6bd"},"upVoteCookies":[],"downVoteCookies":[],"question":"HOW IS THIS QUESTION??","postDate":{"$date":"2018-11-12T13:48:40.532Z"},"__v":0}
+{"_id":{"$oid":"5be984c9dee50b003887a6be"},"upVoteCookies":[],"downVoteCookies":[],"question":"HOW IS THIS QUESTION??","postDate":{"$date":"2018-11-12T13:48:57.472Z"},"__v":0}

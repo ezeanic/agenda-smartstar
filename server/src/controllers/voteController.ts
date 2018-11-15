@@ -19,6 +19,7 @@ export class VoteController{
                         throw new Error("Sorry, cannot upVote more than once")
                     }
                     QuestionObject.upVoteCookies.push(req.cookies.usertag)
+                    console.log('saved up vote from ' + req.cookies.usertag)
                     return QuestionObject.save()
 
                 case"downVote":
@@ -30,9 +31,10 @@ export class VoteController{
                         throw new Error("Sorry, cannot downVote more than once")
                     }
                     QuestionObject.downVoteCookies.push(req.cookies.usertag)
+                    console.log('saved down vote from ' + req.cookies.usertag)
                     return QuestionObject.save()
 
-                    case"notUpVote":
+                case"notUpVote":
                     let choice = QuestionObject.upVoteCookies.indexOf(req.cookies.usertag)
                     if(QuestionObject.upVoteCookies.indexOf(req.cookies.usertag) == -1){ // remove
                         throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: U345yhedjhisdj")
@@ -40,12 +42,12 @@ export class VoteController{
                     if( choice != -1){ // remove
                         QuestionObject.upVoteCookies.splice(choice,1)
                     }
-                    
+                    console.log('saved not up vote from ' + req.cookies.usertag)
                     //QuestionObject.upVoteCookies.push(req.cookies.usertag)
                     return QuestionObject.save()
 
 
-                    case"notDownVote":
+                case"notDownVote":
                     let userSelection = QuestionObject.downVoteCookies.indexOf(req.cookies.usertag)
                     if(QuestionObject.downVoteCookies.indexOf(req.cookies.usertag) == -1){ //  (== -1 means it is not there)
                         throw new Error("Sorry, unable to change vote. Vote not avaliable. Error code: Djfdklfndknf23")
@@ -55,6 +57,7 @@ export class VoteController{
                     }
                     
                     //QuestionObject.downVoteCookies.push(req.cookies.usertag)
+                    console.log('saved not down vote from ' + req.cookies.usertag)
                     return QuestionObject.save()
 
                 default:

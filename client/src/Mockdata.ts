@@ -6,7 +6,7 @@ let QuestionMOCK_DATA = [{
     numDownVotes: 8,
     canDownVote: true,
     flagCount: 12,
-    _id: "0002"
+    _id: "acbxyz0002"
     }]
 
 let PostQuestionMOCK_DATA = {

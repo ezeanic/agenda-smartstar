@@ -1,10 +1,10 @@
 type QuestionEntry = {
-    question: String,
+    question: string,
     postDate: Date,
     numUpVotes: number,
-    canUpVote: Boolean;
+    canUpVote: boolean;
     numDownVotes: number,
-    canDownVote: Boolean,
+    canDownVote: boolean,
     flagCount: number,
     _id: string,
 }
