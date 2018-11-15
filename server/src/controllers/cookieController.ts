@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { CookieSchema } from '../models/CookieModel';
+import { CookieSchema } from '../models/cookieModel';
 import { Request, Response, NextFunction} from 'express';
 
 const Cookie = mongoose.model('Cookie', CookieSchema);
