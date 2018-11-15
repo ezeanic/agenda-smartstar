@@ -6,15 +6,10 @@ services:
      - api
   api:
     image: agenda_api
-    ports:
-     - "3001:3001"
-     - "9230:9229"
     links:
      - mongo
   mongo:
    image: mongo:4.0.2
-   ports:
-     - "27017:27017"
    volumes:
      - mongo_data:/data/db
 
