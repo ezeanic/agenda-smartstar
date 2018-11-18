@@ -36,7 +36,6 @@ class App {
             if (req.cookies.usertag == undefined) {
                 // while cookie is undefined, create new cookie
                 CookieController.handleCookie(req, res, next)
-                next()
             }else{
             next()
             }

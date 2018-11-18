@@ -9,7 +9,7 @@ export class CookieController{
         const randomNumber=Math.random().toString().slice(2)
         Cookie.find({userCookie: randomNumber})
         .then((result) =>{
-            if(!result){
+            if(!result.length){
                 res.cookie('usertag',randomNumber, { maxAge: 24*365*3600*1000, httpOnly: true })
                 let newCookie = new Cookie({userCookie: randomNumber})
                 newCookie.save()
