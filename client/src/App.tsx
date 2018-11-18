@@ -56,6 +56,9 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
 
         let rows:any = []
         let entries = this.props.entries
+        entries.sort(function(a:any, b:any){
+          return b.numUpVotes - a.numUpVotes
+        })
         for (let ix in entries) {
             rows.push(<tr key={ix}><td className="App-table">{entries[ix].question}</td>
             <td className="App-table"><UpButton entry={entries[ix]} clickHandler={this.props.clickHandler}/><span>{entries[ix].numUpVotes}</span></td>
@@ -190,6 +193,9 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry []}> {
             console.log("No such case")
     }
   }
+  // public sortUpVotes(entries: QuestionEntry[], numUpVotes:number){
+     
+  // }
 
   public render() {
     return (

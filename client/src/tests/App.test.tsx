@@ -4,6 +4,7 @@ import App, {UpButton, SimpleTable} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
+import {}
 
 configure({ adapter: new ReactSixteenAdapter() });
 
@@ -45,5 +46,11 @@ describe('App UI tests', () => {
         theUpButton.simulate('click')
         let appInstance = theApp.instance() as App
         expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
+    })
+    it('list sorted by upvotes', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let oldOrder = mockData[0]._id + mockData[1]._id
+        
     })
 })
