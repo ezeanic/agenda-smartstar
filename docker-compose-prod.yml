@@ -5,6 +5,7 @@ services:
     volumes:
      - ./client:/work/
      - /work/node_modules
+     - web_build:/work/build
     ports:
      - "3000:3000"
      - "9229:9229"
@@ -12,6 +13,7 @@ services:
      - api
     environment:
      - REACT_APP_API_ENV=development
+    command: yarn build
   api:
     image: agenda_api
     volumes:
@@ -32,6 +34,17 @@ services:
    volumes:
      - mongo_data:/data/db
      - ./data:/data/exchange
+  nginx:
+    image: nginx:alpine
+    ports:
+     - 80:80
+    links:
+     - ui
+    volumes:
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+     - web_build:/work/build
+     
 
 volumes:
   mongo_data:
+  web_build:
