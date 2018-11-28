@@ -40,7 +40,7 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void}>{
+export class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void}>{
 constructor(props){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
@@ -48,7 +48,7 @@ constructor(props){
 }
 
 handleQuestionTextChange(e:any){
-    this.props.onQuestionSubmitChange(e.target.value);
+    this.props.onQuestionTextChange(e.target.value);
 }
 
 handleQuestionSubmitChange(e:any){
