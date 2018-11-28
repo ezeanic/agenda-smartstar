@@ -40,7 +40,7 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, questionText:string, questionSubmit:string, onQuestionSubmitChange:(value:string)=>void}>{
+class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void}>{
 constructor(props){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
@@ -55,14 +55,12 @@ handleQuestionSubmitChange(e:any){
     this.props.onQuestionSubmitChange(e.target.value);
 }
 
-  
-  
-  
+   
     render() {
     return (
       <form>     
-        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionChange} />
-        <button type="submit" onClick={this.props.questionSubmit} onChange={this.handleQuestionSubmit}> Submit </button>
+        <input type="text" placeholder="Input Question" value={this.props.handleQuestionTextChange} onChange={this.handleQuestionChange} />
+        <button type="submit" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
       
