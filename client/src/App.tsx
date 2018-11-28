@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {QuestionEntry, VoteValidation} from './QuestionEntry'
-import {FetchQuestions, UpVote, DownVote, NotUpVote, NotDownVote, PostQuestions} from './API_Interface'
+import {FetchQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
 
 import {QuestionMOCK_DATA} from './Mockdata'
 
@@ -40,11 +40,25 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-export class InputBar extends React.Component<{entry:QuestionEntry, doFetch?:(e:any)=>void}>{
+class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, questionText:string, questionSubmit:string, onQuestionSubmitChange:(value:string)=>void}>{
+constructor(props){
+    super(props);
+    this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
+    this.handleQuestionSubmitChange = this.handleQuestionSubmitChange.bind(this)
+}
 
+handleQuestionTextChange(e:any){
+    this.props.onQuestionSubmitChange(e.target.value);
+}
 
+handleQuestionSubmitChange(e:any){
+    this.props.onQuestionSubmitChange(e.target.value);
+}
 
-  render() {
+  
+  
+  
+    render() {
     return (
       <form>     
         <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionChange} />
@@ -76,7 +90,7 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
     }
 }
 
-class App extends React.Component <AppProps, {onQuestionTextChange:(value:string)=>void, questionText:string, questionSubmit:string, onQuestionSubmitChange:(value:string)=>void, questionList: QuestionEntry []}> {
+class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
@@ -85,8 +99,7 @@ class App extends React.Component <AppProps, {onQuestionTextChange:(value:string
         }
         this.state = {questionList: defaultList}
         this.handleClick = this.handleClick.bind(this)
-        this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
-        this.handleQuestionSubmitChange = this.handleQuestionSubmitChange.bind(this)
+       
     }
   
 
@@ -100,13 +113,6 @@ class App extends React.Component <AppProps, {onQuestionTextChange:(value:string
         }
     }
 
-    public handleQuestionTextChange(e:any){
-   this.props.onQuestionTextChange(e.target.value);
-    }
-     
-    public handleQuestionSubmitChange(e:any){
-        this.props.onQuestionSubmitChange(e.target.submit);
-         }
     public componentDidMount() {
         this.doFetch()
     }
