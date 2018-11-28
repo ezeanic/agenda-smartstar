@@ -9,6 +9,7 @@ import {QuestionMOCK_DATA} from './Mockdata'
 import logo from './logo.svg';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
+type InputBarProps = {api_url: string, testQPost?:QuestionEntry[]} //just added to create props for input bar
 
 function checkTest() {
     // this works with VSCode and the shell environment
@@ -40,8 +41,8 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-export class InputBar extends React.Component<{onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void}>{
-constructor(props){
+class InputBar extends React.Component<InputBarProps , {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void, questionText:string , questionSubmit:boolean}>{
+constructor(props:InputBarProps){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
     this.handleQuestionSubmitChange = this.handleQuestionSubmitChange.bind(this)
@@ -55,12 +56,11 @@ handleQuestionSubmitChange(e:any){
     this.props.onQuestionSubmitChange(e.target.value);
 }
 
-   
     render() {
     return (
       <form>     
-        <input type="text" placeholder="Input Question" value={this.props.handleQuestionTextChange} onChange={this.handleQuestionChange} />
-        <button type="submit" onClick={this.handleQuestionSubmitChange}> Submit </button>
+        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
+        <button type="submit" onClick={this.props.questionSubmit} onChange={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
       
