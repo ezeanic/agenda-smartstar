@@ -27,7 +27,7 @@ let QuestionMOCK_DATA = [{
     {question: 'this is a fourth question',
     postDate: new Date(Date.now()),
     numUpVotes: 7,
-    canUpVote: true,
+    canUpVote: false,
     numDownVotes: 0,
     canDownVote: false,
     flagCount: 0,
@@ -74,5 +74,5 @@ let testMOCK_DATA =[{
     numDownVotes: 0,
     canDownVote: true,
     flagCount: 0,
-    _id: "0001"}]
+    _id: "0002"}]
 export {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA, PostQuestionMOCK_DATA, testMOCK_DATA}

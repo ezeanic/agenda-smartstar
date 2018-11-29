@@ -4,7 +4,7 @@ import App, {UpButton, SimpleTable} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
-import {}
+
 
 configure({ adapter: new ReactSixteenAdapter() });
 
@@ -40,26 +40,23 @@ describe('App UI tests', () => {
     it('notUpVote is counted', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
-        let oldLikeCount=mockData[0].numUpVotes // get the current numUpVotes
-        let theID=mockData[0]._id
+        let appInstance = theApp.instance() as App
+        let oldLikeCount=appInstance.state.questionList[0].numUpVotes // get the current numUpVotes
+        let theID = appInstance.state.questionList[0]._id
         let theUpButton = theApp.find('[id="' + theID + ':unLike"]')  // find the button & click it
         theUpButton.simulate('click')
-        let appInstance = theApp.instance() as App
+        
         expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
     })
-    // it('list sorted by upvotes', () => {
-    //     const mockData = QuestionMOCK_DATA
-    //     let theApp = mount(<App testQList={mockData} api_url={''}/>)
-    //     let oldOrder = mockData[0]._id + mockData[1]._id
-    //     let appInstance = theApp.instance() as App
-    //     mockData.sort(function(a:any, b:any){
-    //         return b.numUpVotes - a.numUpVotes
-    //       })
-    //     let flag = true
-    //       for(let ix in mockData){
-    //         if(appInstance.state.qustionList[ix].numUpvotes < appInstance.state.qustionList[ix+1].numUpvotes)
-    //         flag = false
-    //       }
-    //     expect(flag)
-    // })
+    it('list sorted by upvotes', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        let flag = true
+          for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
+            if(appInstance.state.questionList[ix].numUpvotes < appInstance.state.questionList[ix+1].numUpvotes)
+            flag = false
+          }
+        expect(flag)
+    })
 })
