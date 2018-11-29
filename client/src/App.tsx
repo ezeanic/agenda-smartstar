@@ -111,6 +111,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         //console.log(this.state.questionText)
         PostQuestions(this.props.api_url, this.state.questionText, (refreshQuestions: QuestionEntry) =>{
             this.doFetch()
+            this.setState({questionText: ""});
         })
 
     }
