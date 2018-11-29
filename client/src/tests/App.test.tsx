@@ -47,10 +47,19 @@ describe('App UI tests', () => {
         let appInstance = theApp.instance() as App
         expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
     })
-    it('list sorted by upvotes', () => {
-        const mockData = QuestionMOCK_DATA
-        let theApp = mount(<App testQList={mockData} api_url={''}/>)
-        let oldOrder = mockData[0]._id + mockData[1]._id
-        
-    })
+    // it('list sorted by upvotes', () => {
+    //     const mockData = QuestionMOCK_DATA
+    //     let theApp = mount(<App testQList={mockData} api_url={''}/>)
+    //     let oldOrder = mockData[0]._id + mockData[1]._id
+    //     let appInstance = theApp.instance() as App
+    //     mockData.sort(function(a:any, b:any){
+    //         return b.numUpVotes - a.numUpVotes
+    //       })
+    //     let flag = true
+    //       for(let ix in mockData){
+    //         if(appInstance.state.qustionList[ix].numUpvotes < appInstance.state.qustionList[ix+1].numUpvotes)
+    //         flag = false
+    //       }
+    //     expect(flag)
+    // })
 })
