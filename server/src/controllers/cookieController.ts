@@ -18,7 +18,6 @@ export class CookieController{
                 })
             }else{
                 CookieController.handleCookie(req, res, next)
-                next()
             }
         })
     }

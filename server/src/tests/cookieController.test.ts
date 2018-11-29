@@ -106,7 +106,7 @@ describe('the cookie controller', () => {
     it('handles duplicate case', (done) => {
         /*
         // force random number reuse
-        */
+       */
         MockCookie.myStorage = {}
         let myRandom = new MockRandom()
         let random = myRandom.random.bind(myRandom)
