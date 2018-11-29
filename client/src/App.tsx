@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import {QuestionEntry, VoteValidation} from './QuestionEntry'
-import {FetchQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
+import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
 
 import {QuestionMOCK_DATA} from './Mockdata'
 
@@ -107,8 +107,12 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
     }
 
     public handleQuestionSubmitChange(){
-        alert("this.state.questionText")
-        console.log(this.state.questionText)
+        //alert(this.state.questionText)
+        //console.log(this.state.questionText)
+        PostQuestions(this.props.api_url, this.state.questionText, (refreshQuestions: QuestionEntry) =>{
+            this.doFetch()
+        })
+
     }
   
     public handleClick(e:any) {
