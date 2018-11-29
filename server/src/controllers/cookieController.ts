@@ -17,7 +17,7 @@ export class CookieController{
                     next()
                 })
             }else{
-                console.log("Error")
+                CookieController.handleCookie(req, res, next)
                 next()
             }
         })
