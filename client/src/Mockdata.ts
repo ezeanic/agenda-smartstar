@@ -7,7 +7,31 @@ let QuestionMOCK_DATA = [{
     canDownVote: true,
     flagCount: 12,
     _id: "acbxyz0002"
-    }]
+    },
+    {question: 'this is a new question',
+    postDate: new Date(Date.now()),
+    numUpVotes: 6,
+    canUpVote: true,
+    numDownVotes: 0,
+    canDownVote: true,
+    flagCount: 0,
+    _id: "0001"},
+    {question: 'this is a third question',
+    postDate: new Date(Date.now()),
+    numUpVotes: 6,
+    canUpVote: false,
+    numDownVotes: 0,
+    canDownVote: true,
+    flagCount: 0,
+    _id: "0002"},
+    {question: 'this is a fourth question',
+    postDate: new Date(Date.now()),
+    numUpVotes: 7,
+    canUpVote: false,
+    numDownVotes: 0,
+    canDownVote: false,
+    flagCount: 0,
+    _id: "0003"}]
 
 let PostQuestionMOCK_DATA = {
     question: 'this is a new question',
@@ -33,4 +57,22 @@ let VoteFailMOCK_DATA = {
 let upVoteMOCK_DATA = {
     root_url: "Test_Url",
 }
-export {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA, PostQuestionMOCK_DATA}
+let testMOCK_DATA =[{
+    question: 'this is a new question',
+    postDate: new Date(Date.now()),
+    numUpVotes: 0,
+    canUpVote: true,
+    numDownVotes: 0,
+    canDownVote: true,
+    flagCount: 0,
+    _id: "0001"
+},
+    {question: 'this is a new question',
+    postDate: new Date(Date.now()),
+    numUpVotes: 0,
+    canUpVote: true,
+    numDownVotes: 0,
+    canDownVote: true,
+    flagCount: 0,
+    _id: "0002"}]
+export {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, upVoteMOCK_DATA, PostQuestionMOCK_DATA, testMOCK_DATA}
