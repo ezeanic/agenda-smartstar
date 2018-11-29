@@ -9,7 +9,7 @@ import {QuestionMOCK_DATA} from './Mockdata'
 import logo from './logo.svg';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
-type InputBarProps = {api_url: string, testQPost?:QuestionEntry[]} //just added to create props for input bar
+type InputBarProps = {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:()=>void, questionText:string} //just added to create props for input bar
 
 function checkTest() {
     // this works with VSCode and the shell environment
@@ -41,7 +41,7 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-class InputBar extends React.Component<InputBarProps , {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:(value:string)=>void, questionText:string , questionSubmit:boolean}>{
+class InputBar extends React.Component<InputBarProps>{
 constructor(props:InputBarProps){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
@@ -53,14 +53,14 @@ handleQuestionTextChange(e:any){
 }
 
 handleQuestionSubmitChange(e:any){
-    this.props.onQuestionSubmitChange(e.target.value);
+    //this.props.onQuestionSubmitChange(e.target.value);
 }
 
     render() {
     return (
       <form>     
         <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
-        <button type="submit" onClick={this.props.questionSubmit} onChange={this.handleQuestionSubmitChange}> Submit </button>
+        <button type="submit" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
       
@@ -88,7 +88,7 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
     }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {}> {
+class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {questionText: }> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
@@ -96,7 +96,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {}
             defaultList = this.props.testQList
         }
         this.state = {questionList: defaultList}
-        this.handleClick = this.handleClick.bind(this)
+        this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
        
     }
   
@@ -216,7 +216,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {}
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React Questions ({process.env.NODE_ENV}:{process.env.REACT_APP_API_ENV})</h1>
         </header>
-        <InputBar/>
+        <InputBar questionText={this.state.question} onQuestionTextChange={} onQuestionSubmitChange={}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} />
       </div>
     )
