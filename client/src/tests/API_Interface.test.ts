@@ -23,7 +23,7 @@ describe("testing fetchers in network happy paths", ()  => {
     })
 
     it('tests FetchQuestions catch error', () => {
-        fetch.mockReject(new Error('Error: List is empty.'))
+        fetch.mockReject(new Error('not an error, testing if it catches error'))
         FetchQuestions(rootUrl+"/question",(theList: QuestionEntry[]) => {
             expect(theList.length).toEqual(0)
         })

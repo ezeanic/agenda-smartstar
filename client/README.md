@@ -3,9 +3,13 @@ Agenda UI Sources
 
 To actaully run the app, you want to run "docker-compose up" in the root dir.
 
-If you just want to run the client side tests:
+If you just want to run the client side tests, cd to "client" and run:
 
 docker run --rm -it -v "$PWD":/work -v /work/node_modules agenda_ui yarn test
+
+Or to run the webUI without cd to "client" and run:
+
+docker run --rm -it -v "$PWD":/work -v /work/node_modules -e "REACT_APP_API_ENV=test" agenda_ui yarn start
 
 Bootstrap README
 ================

@@ -6,6 +6,7 @@ import { VoteRoutes } from "./routes/voteRoutes"
 import {StatsRoutes } from "./routes/statsRoutes"
 import * as mongoose from "mongoose"
 import * as cookieParser from "cookie-parser"
+import { CookieController } from "./controllers/cookieController";
 class App {
 
     public app: express.Application
@@ -33,10 +34,11 @@ class App {
         
         this.app.use((req: express.Request, res: express.Response, next: express.NextFunction)  => {
             if (req.cookies.usertag == undefined) {
-                const randomNumber=Math.random().toString().slice(2)
-                res.cookie('usertag',randomNumber, { maxAge: 24*365*3600*1000, httpOnly: true })
-            }
+                // while cookie is undefined, create new cookie
+                CookieController.handleCookie(req, res, next)
+            }else{
             next()
+            }
         })
         this.app.use(express.static('public'))
     }
