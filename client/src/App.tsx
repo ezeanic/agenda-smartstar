@@ -52,15 +52,14 @@ handleQuestionTextChange(e:any){
     this.props.onQuestionTextChange(e.target.value);
 }
 
-handleQuestionSubmitChange(e:any){
-    //this.props.onQuestionSubmitChange(e.target.value);
+handleQuestionSubmitChange(e:any){ // button action
+    this.props.onQuestionSubmitChange();
 }
-
     render() {
     return (
       <form>     
         <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
-        <button type="submit" onClick={this.handleQuestionSubmitChange}> Submit </button>
+        <button type="button" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
       
@@ -88,19 +87,30 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
     }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {questionText: }> {
+class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList}
+        this.state = {questionList: defaultList, questionText: ''}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
        
+        this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
+        this.handleQuestionSubmitChange=this.handleQuestionSubmitChange.bind(this)
+
+    }
+
+    public handleQuestionTextChange(questionText: string){
+        this.setState({questionText: questionText});
+    }
+
+    public handleQuestionSubmitChange(){
+        alert("this.state.questionText")
+        console.log(this.state.questionText)
     }
   
-
     public handleClick(e:any) {
         let [id, direct] = e.target.id.split(':')
         let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
@@ -216,7 +226,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[]}, {q
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React Questions ({process.env.NODE_ENV}:{process.env.REACT_APP_API_ENV})</h1>
         </header>
-        <InputBar questionText={this.state.question} onQuestionTextChange={} onQuestionSubmitChange={}/>
+        <InputBar questionText={this.state.questionText} onQuestionTextChange={this.handleQuestionTextChange} onQuestionSubmitChange={this.handleQuestionSubmitChange}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} />
       </div>
     )
