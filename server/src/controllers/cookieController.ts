@@ -20,5 +20,8 @@ export class CookieController{
                 CookieController.handleCookie(req, res, next)
             }
         })
+        .catch((err) =>{
+            console.log("GAH! Terrible error in handleCookie" + err.message)
+        }) 
     }
 }    
