@@ -46,6 +46,8 @@ constructor(props:InputBarProps){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
     this.handleQuestionSubmitChange = this.handleQuestionSubmitChange.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+
 }
 
 handleQuestionTextChange(e:any){
@@ -55,10 +57,16 @@ handleQuestionTextChange(e:any){
 handleQuestionSubmitChange(e:any){ // button action
     this.props.onQuestionSubmitChange();
 }
+handleKeyPress(Event:any){
+    if (Event.key === 'Enter'){
+        this.props.onQuestionSubmitChange();
+    }
+}
     render() {
     return (
       <form>     
-        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
+        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange}
+        onKeyPress={this.handleKeyPress} />
         <button type="button" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
