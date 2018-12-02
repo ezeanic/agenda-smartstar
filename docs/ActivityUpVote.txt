@@ -1,0 +1,33 @@
+@startuml
+
+start
+:Search For Question;
+if (successful) then (true)
+    if (usertag in downVotes) then (true)
+        :Remove usertag from downVotes;
+    else (false)
+    endif
+
+    if (usertag in upVotes) then (true)
+        :Return Error;
+    else (false)
+        :Add usertag to upVotes;
+        :Save Question;
+
+        if (error) then (true)
+            :Return Error;
+        else (false)
+            :Return Success;
+        endif
+
+    endif
+
+else (false)
+    :Return Error;
+endif
+
+stop
+
+@enduml
+
+

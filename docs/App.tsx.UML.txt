@@ -1,0 +1,81 @@
+@startuml
+
+title Agenda Application Class Diagram
+
+class AppProps <<(T,orchid)>> {
+    api_url : string
+    testQList? : QuestionEntry[]
+}
+
+class QuestionEntry <<(T, orchid)>> {
+    question: string
+    postDate: Date
+    numUpVotes: number
+    canUpVote: boolean
+    numDownVotes: number
+    canDownVote: boolean
+    flagCount: number
+    _id: string
+}
+
+class InputBarProps <<(T,orchid)>> {
+    onQuestionTextChange:(value:string)=>void
+    onQuestionSubmitChange:()=>void
+    questionText:string
+}
+
+class UpButton <<React.Component>> {
+  + render()
+  __ props __
+  + props.entry: QuestionEntry
+  + props.clickHandler: (e:any)=>void
+}
+
+class DownButton <<React.Component>> {
+  + render() 
+  __ props __
+  + props.entry: QuestionEntry
+  + props.clickHandler: (e:any)=>void
+}
+
+class InputBar <<React.Component>>{
+    handleQuestionTextChange(e:any)
+    handleQuestionSubmitChange(e:any)
+    render() 
+    __ props __
+    props: InputBarProps
+}
+
+class SimpleTable  <<React.Component>> {
+    + render() 
+    __ props __
+    + props.entries: QuestionEntry[]
+    + props.clickHandler: (e:any)=>void
+}
+
+class App  <<React.Component>> {
+    + handleQuestionTextChange(questionText: string)
+    + handleQuestionSubmitChange()
+    + handleClick(e:any) 
+    + componentDidMount()
+    + doFetch() 
+    + doVote(ix:number, id:string, dir:string)
+    + render()
+    __ props __
+    props: AppProps    
+}
+
+InputBar "props" o-- InputBarProps
+InputBar -[hidden]right-- SimpleTable
+
+App "props" o-- AppProps
+
+App "1" *-- "1" InputBar
+App "1" *-down- "1" SimpleTable
+
+SimpleTable "1" *-- "many" UpButton
+SimpleTable "1" *-- "many" DownButton
+SimpleTable "1" *-- "many" QuestionEntry
+
+
+@enduml
