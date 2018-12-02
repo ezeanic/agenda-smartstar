@@ -1,6 +1,6 @@
 @startuml
 
-title Agenda Application Class Diagram
+title Agenda Application React UI Class Diagram
 
 class AppProps <<(T,orchid)>> {
     api_url : string
