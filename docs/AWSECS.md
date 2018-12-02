@@ -2,7 +2,11 @@
 
 If you're following along with the class you've got an EC2 server running. Good! 
 
-Note: If you're not sure about that you can click [here](TBD). 
+Note: If you're not sure about that you can click [here](https://docs.aws.amazon.com/quickstarts/latest/vmlaunch/step-1-launch-instance.html). 
+
+The only difference is that we'll be using a slightly different image:
+
+![Amazon AMI selection](./AWS_AMI_SELECT.png)
 
 I'll walk you through this, [details here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html)
 
