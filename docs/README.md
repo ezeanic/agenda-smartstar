@@ -7,7 +7,7 @@
 
 # Classes
 
-The Reach UI class relationships are described by the following UML Diagram.
+The ReactJS UI class relationships are described by the following UML Diagram.
 
 ![UML Class Diagram](./App.tsx.UML.png)
 
