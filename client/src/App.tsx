@@ -10,6 +10,7 @@ import logo from './logo.svg';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 type InputBarProps = {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:()=>void, questionText:string} //just added to create props for input bar
+type SearchBarProps = {onFilterTextChange:(value:string)=> void , onAvailableQuestionChange:(value:boolean)=> void , filterText:string , availableQuestion: boolean } //new
 
 function checkTest() {
     // this works with VSCode and the shell environment
@@ -67,8 +68,13 @@ handleQuestionSubmitChange(e:any){ // button action
   }
 }
 
+
+
 export class SimpleTable extends React.Component <{entries:QuestionEntry[], clickHandler?:(e:any)=>void}> {
     public render() {
+        //const filterText = this.props.filterText; //new
+        //const availableQuestion = this.props.availableQuestion; //new
+
 
         let rows:any = []
         let entries = this.props.entries
@@ -81,6 +87,7 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
             <td className="App-table"><DownButton entry={entries[ix]} clickHandler={this.props.clickHandler}/><span>{entries[ix].numDownVotes}</span></td>
             </tr>)
         }
+        
         return <table  className="App-center">
                 <tbody>
                 <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
@@ -90,18 +97,58 @@ export class SimpleTable extends React.Component <{entries:QuestionEntry[], clic
     }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string}> {
+class SearchBar extends React.Component <SearchBarProps>  {
+    constructor(props:SearchBarProps) {
+      super(props);
+      this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
+      this.handleAvailableQuestionChange = this.handleAvailableQuestionChange.bind(this);
+    }
+    
+    handleFilterTextChange(e:any) {
+      this.props.onFilterTextChange(e.target.value);
+    }
+    
+    handleAvailableQuestionChange(e:any) {
+      this.props.onAvailableQuestionChange(e.target.checked);
+    }
+    
+    render() {
+      return (
+        <form>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={this.props.filterText}
+            onChange={this.handleFilterTextChange}
+          />
+          <p>
+            <input
+              type="checkbox"
+              checked={this.props.availableQuestion}
+              onChange={this.handleAvailableQuestionChange}
+            />
+            {' '}
+            Only show available questions
+          </p>
+        </form>
+      );
+    }
+  }
+
+class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string , availableQuestion: boolean}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList, questionText: ''}
+        this.state = {questionList: defaultList, questionText: '' , filterText: '' , availableQuestion: false}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
        
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
         this.handleQuestionSubmitChange=this.handleQuestionSubmitChange.bind(this)
+        this.handleFilterTextChange=this.handleFilterTextChange.bind(this)
+        this.handleAvailableQuestionChange=this.handleAvailableQuestionChange.bind(this)
 
     }
 
@@ -118,6 +165,16 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         })
 
     }
+    
+  handleFilterTextChange(filterText:string) {
+    this.setState({filterText: filterText});
+  }
+
+  handleAvailableQuestionChange(availableQuestion:boolean) {
+    this.setState({ availableQuestion: availableQuestion})
+  }
+
+  
   
     public handleClick(e:any) {
         let [id, direct] = e.target.id.split(':')
@@ -238,6 +295,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
           <h1 className="App-title">Welcome to React Questions ({process.env.NODE_ENV}:{process.env.REACT_APP_API_ENV})</h1>
         </header>
         <InputBar questionText={this.state.questionText} onQuestionTextChange={this.handleQuestionTextChange} onQuestionSubmitChange={this.handleQuestionSubmitChange}/>
+        <SearchBar filterText={this.state.filterText} availableQuestion={this.state.availableQuestion} onFilterTextChange={this.handleFilterTextChange} onAvailableQuestionChange={this.handleAvailableQuestionChange}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} />
       </div>
     )
