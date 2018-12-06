@@ -4,17 +4,6 @@ import {QuestionEntry, VoteValidation} from './QuestionEntry'
 import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
 
 import {QuestionMOCK_DATA} from './Mockdata'
-
-
-import logo from './logo.svg';
-import * as React from 'react';
-import './App.css';
-import {QuestionEntry, VoteValidation} from './QuestionEntry'
-import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
-
-import {QuestionMOCK_DATA} from './Mockdata'
-
-
 import logo from './logo.svg';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
