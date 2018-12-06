@@ -42,9 +42,7 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
-        console.log(theTextField)
-        theTextField.simulate('keyPress')
-   
+        theTextField.simulate('keypress', {key:'Enter')
         expect(fn).toBeCalled()
     })
 
