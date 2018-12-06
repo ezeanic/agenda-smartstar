@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App, {UpButton, SimpleTable} from '../App'
+import App, {UpButton, SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
@@ -34,6 +34,17 @@ describe('App UI tests', () => {
         let theApp = mount(<SimpleTable entries={mockData} clickHandler={fn} />)
         let theUpButton = theApp.find('[id="acbxyz0002:unLike"]')
         theUpButton.simulate('click')
+        expect(fn).toBeCalled()
+    })
+    it('enter key press posts question', () => {//this is my new test need to delete the changes in app before testing for assignment
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('input')
+        console.log(theTextField)
+        theTextField.simulate('keyPress')
+   
         expect(fn).toBeCalled()
     })
 
