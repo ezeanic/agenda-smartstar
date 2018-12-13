@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App, {UpButton, SimpleTable, InputBar} from '../App'
+import App, {UpButton,DownButton SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
@@ -27,7 +27,7 @@ describe('App UI tests', () => {
         myUpButton.simulate('click')
         expect(fn).toBeCalled()
     })
-
+   
     it('click handler is installed in button', () => {
         let fn = jest.fn()
         const mockData = QuestionMOCK_DATA
@@ -43,6 +43,24 @@ describe('App UI tests', () => {
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
         theTextField.simulate('keypress', {key:'Enter')
+        expect(fn).toBeCalled()
+    })
+    it('key press to fail', () => {//this is my new test need to delete the changes in app before testing for assignment
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('input')
+        theTextField.simulate('keypress', {key:'p')
+        expect(fn).not.toBeCalled()
+    })
+    it('submit button press posts question', () => {//this is my new test need to delete the changes in app before testing for assignment
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('button')
+        theTextField.simulate('click')
         expect(fn).toBeCalled()
     })
 
