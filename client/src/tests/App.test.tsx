@@ -45,7 +45,7 @@ describe('App UI tests', () => {
         theTextField.simulate('keypress', {key:'Enter')
         expect(fn).toBeCalled()
     })
-    it('key press to fail', () => { //this was a test i had hadded to make sure the handler isnt called when enter is not pressed
+    it('Keypress handler is not called', () => { //this was a test i had hadded to make sure the handler isnt called when enter is not pressed
         let fn = jest.fn()
         let dummy = jest.fn()
         const mockData = QuestionMOCK_DATA
