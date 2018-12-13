@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App, {UpButton, SimpleTable} from '../App'
+import App, {UpButton,DownButton SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
@@ -27,13 +27,40 @@ describe('App UI tests', () => {
         myUpButton.simulate('click')
         expect(fn).toBeCalled()
     })
-
+   
     it('click handler is installed in button', () => {
         let fn = jest.fn()
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<SimpleTable entries={mockData} clickHandler={fn} />)
         let theUpButton = theApp.find('[id="acbxyz0002:unLike"]')
         theUpButton.simulate('click')
+        expect(fn).toBeCalled()
+    })
+    it('enter key press posts question', () => {//this is a test to verify if the enter key was pressed it does something
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('input')
+        theTextField.simulate('keypress', {key:'Enter')
+        expect(fn).toBeCalled()
+    })
+    it('Keypress handler is not called', () => { //this was a test i had hadded to make sure the handler isnt called when enter is not pressed
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('input')
+        theTextField.simulate('keypress', {key:'p')
+        expect(fn).not.toBeCalled()
+    })
+    it('submit button press posts question', () => {
+        let fn = jest.fn()
+        let dummy = jest.fn()
+        const mockData = QuestionMOCK_DATA
+        let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
+        let theTextField = theInputBar.find('button')
+        theTextField.simulate('click')
         expect(fn).toBeCalled()
     })
 
