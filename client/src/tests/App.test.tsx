@@ -45,9 +45,26 @@ describe('App UI tests', () => {
         let theID = appInstance.state.questionList[0]._id
         let theUpButton = theApp.find('[id="' + theID + ':unLike"]')  // find the button & click it
         theUpButton.simulate('click')
-        
+
         expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
     })
+
+    it('unable to click downVote when already upVoted', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        let oldLikeCount=appInstance.state.questionList[0].numUpVotes // get the current numUpVotes
+        let oldDislikeCount=appInstance.state.questionList[0].numDownVotes // get the current numDownVotes
+        let theID = appInstance.state.questionList[0]._id
+        let theUpButton = theApp.find('[id="' + theID + ':like"]')  // find like button
+        let theDownButton = theApp.find('[id="' + theID + ':dislike"]')  // find dislike button
+        theDownButton.simulate('click')
+        theUpButton.simulate('click')
+
+        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount)
+        expect(appInstance.state.questionList[0].numDownVotes).toEqual(oldDislikeCount)
+    })
+
     it('list sorted by upvotes', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)

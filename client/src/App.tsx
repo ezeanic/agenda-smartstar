@@ -20,10 +20,12 @@ export class UpButton extends React.Component <{entry:QuestionEntry, clickHandle
   public render() {
     //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
-    if(entry.canUpVote){
+    if(entry.canUpVote == true && entry.canDownVote == true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
-    } else {
+    } else if(entry.canUpVote == false && entry.canDownVote == true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
+    } else {
+      return <button type="button" id={entry._id + ':like'}>Like</button>
     }
 
   }
@@ -34,10 +36,12 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
      let entry = this.props.entry
-      if(entry.canDownVote){
+      if(entry.canDownVote == true && entry.canUpVote == true){
         return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
-      } else {
+      } else if(entry.canDownVote == false && entry.canUpVote == true){
         return <button onClick={this.props.clickHandler} type="button" id={entry._id + ":unDislike"}>unDislike</button>
+      } else {
+        return <button type="button" id={entry._id + ':dislike'}>Dislike</button>
       }
     }
 }
@@ -57,12 +61,12 @@ handleQuestionSubmitChange(e:any){ // button action
 }
     render() {
     return (
-      <form>     
+      <form>
         <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
         <button type="button" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
-      
+
     );
   }
 }
@@ -99,7 +103,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         }
         this.state = {questionList: defaultList, questionText: ''}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
-       
+
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
         this.handleQuestionSubmitChange=this.handleQuestionSubmitChange.bind(this)
 
@@ -118,7 +122,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         })
 
     }
-  
+
     public handleClick(e:any) {
         let [id, direct] = e.target.id.split(':')
         let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
@@ -150,26 +154,26 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
         this.setState({questionList: newQuestionList})
     }
-    
+
     public handleNotUpVote(newQuestionList: QuestionEntry[], ix:number) {
         newQuestionList[ix].numUpVotes -= 1
         newQuestionList[ix].canUpVote = !newQuestionList[ix].canUpVote
         this.setState({questionList: newQuestionList})
     }
-    
+
     public handleDownVote(newQuestionList: QuestionEntry[], ix:number) {
         newQuestionList[ix].numDownVotes += 1
         newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
         this.setState({questionList: newQuestionList})
     }
-    
+
     public handleNotDownVote(newQuestionList: QuestionEntry[], ix:number) {
         newQuestionList[ix].numDownVotes -= 1
         newQuestionList[ix].canDownVote = !newQuestionList[ix].canDownVote
         this.setState({questionList: newQuestionList})
     }
-    
-    
+
+
 
   public doVote(ix:number, id:string, dir:string) {
     let newQuestionList =[...this.state.questionList]
@@ -209,7 +213,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
                 this.handleDownVote(newQuestionList, ix)
             }
             break
-        
+
         case 'unDislike':
             if (!checkTest()) { // only fetch if we're not in test mode
                 NotDownVote(this.props.api_url, id, (result: VoteValidation) => {
@@ -227,7 +231,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
     }
   }
   // public sortUpVotes(entries: QuestionEntry[], numUpVotes:number){
-     
+
   // }
 
   public render() {
