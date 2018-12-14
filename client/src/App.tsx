@@ -4,8 +4,6 @@ import {QuestionEntry, VoteValidation} from './QuestionEntry'
 import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} from './API_Interface'
 
 import {QuestionMOCK_DATA} from './Mockdata'
-
-
 import logo from './logo.svg';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
@@ -45,11 +43,13 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
       }
     }
 }
-class InputBar extends React.Component<InputBarProps>{
+export class InputBar extends React.Component<InputBarProps>{
 constructor(props:InputBarProps){
     super(props);
     this.handleQuestionTextChange = this.handleQuestionTextChange.bind(this)
     this.handleQuestionSubmitChange = this.handleQuestionSubmitChange.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
+
 }
 
 handleQuestionTextChange(e:any){
@@ -59,14 +59,22 @@ handleQuestionTextChange(e:any){
 handleQuestionSubmitChange(e:any){ // button action
     this.props.onQuestionSubmitChange();
 }
+handleKeyPress(e:any){
+    if (e.key === 'Enter'){
+        e.preventDefault()
+        this.props.onQuestionSubmitChange();
+    }
+}
     render() {
     return (
-      <form>
-        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange} />
+      <form>     
+        <input type="text" placeholder="Input Question" value={this.props.questionText} onChange={this.handleQuestionTextChange}
+        onKeyPress={this.handleKeyPress} 
+        />
         <button type="button" onClick={this.handleQuestionSubmitChange}> Submit </button>
       </form>
       //Send input to postQuestion function
-
+      //could use print default if we get rid of the on keypress for submit
     );
   }
 }
