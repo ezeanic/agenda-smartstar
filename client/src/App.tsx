@@ -106,7 +106,20 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
     }
 
     public handleQuestionTextChange(questionText: string){
-        this.setState({questionText: questionText});
+        let count:number = 0
+        let i:number = 0
+        for(i; i < questionText.length; i++){
+            if(questionText.charAt(i) ==  ' '){
+                count++;
+            }
+        }
+        if(count == questionText.length) {
+            return
+        }
+        else if(questionText.charAt(0) == ' ' ){
+            return
+        }
+        else this.setState({questionText: questionText});
     }
 
     public handleQuestionSubmitChange(){
