@@ -18,6 +18,7 @@ function checkTest() {
 
 export class UpButton extends React.Component <{entry:QuestionEntry, clickHandler?:(e:any)=>void}> {
   public render() {
+      //console.log("reaching up")
     //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
     if(entry.canUpVote){
@@ -113,13 +114,16 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
                 count++;
             }
         }
-        if(count == questionText.length) {
+        if(count == questionText.length && count != 0) {
             return
         }
         else if(questionText.charAt(0) == ' ' ){
             return
         }
-        else this.setState({questionText: questionText});
+        else { 
+            //console.log("reaching handler:" + questionText + ':')
+            this.setState({questionText: questionText})
+        }
     }
 
     public handleQuestionSubmitChange(){

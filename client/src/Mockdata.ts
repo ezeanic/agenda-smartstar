@@ -31,7 +31,18 @@ let QuestionMOCK_DATA = [{
     numDownVotes: 0,
     canDownVote: false,
     flagCount: 0,
-    _id: "0003"}]
+    _id: "0003"}
+    ,
+    {question: ' there is a space in front', //QuestionMOCK_DATA[4]
+    postDate: new Date(Date.now()),
+    numUpVotes: 6,
+    canUpVote: false,
+    numDownVotes: 8,
+    canDownVote: true,
+    flagCount: 20,
+    _id: "spaceTest"
+    }
+]
 
 let PostQuestionMOCK_DATA = {
     question: 'this is a new question',
