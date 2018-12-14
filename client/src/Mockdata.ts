@@ -27,9 +27,9 @@ let QuestionMOCK_DATA = [{
     {question: 'this is a fourth question',
     postDate: new Date(Date.now()),
     numUpVotes: 7,
-    canUpVote: false,
+    canUpVote: true,
     numDownVotes: 0,
-    canDownVote: false,
+    canDownVote: true,
     flagCount: 0,
     _id: "0003"}]
 

@@ -54,6 +54,7 @@ describe('App UI tests', () => {
         theTextField.simulate('keypress', {key:'p')
         expect(fn).not.toBeCalled()
     })
+    
     it('submit button press posts question', () => {
         let fn = jest.fn()
         let dummy = jest.fn()
@@ -64,31 +65,40 @@ describe('App UI tests', () => {
         expect(fn).toBeCalled()
     })
 
-    it('notUpVote is counted', () => {
+    it('UpVote is counted', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
         let appInstance = theApp.instance() as App
         let oldLikeCount=appInstance.state.questionList[0].numUpVotes // get the current numUpVotes
         let theID = appInstance.state.questionList[0]._id
-        let theUpButton = theApp.find('[id="' + theID + ':unLike"]')  // find the button & click it
+        let theUpButton = theApp.find('[id="' + theID + ':like"]')  // find the button & click it
         theUpButton.simulate('click')
 
-        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
+        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount+1)
     })
 
     it('unable to click downVote when already upVoted', () => {
-        const mockData = QuestionMOCK_DATA
+        const mockItem = Object.assign({}, QuestionMOCK_DATA[0])
+        mockItem.canDownVote = true
+        mockItem.canUpVote = false
+
+        const mockData = [mockItem]
+
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
         let appInstance = theApp.instance() as App
-        let oldLikeCount=appInstance.state.questionList[0].numUpVotes // get the current numUpVotes
-        let oldDislikeCount=appInstance.state.questionList[0].numDownVotes // get the current numDownVotes
-        let theID = appInstance.state.questionList[0]._id
-        let theUpButton = theApp.find('[id="' + theID + ':like"]')  // find like button
-        let theDownButton = theApp.find('[id="' + theID + ':dislike"]')  // find dislike button
+        let oldLikeCount=mockItem.numUpVotes // get the current numUpVotes
+        let oldDislikeCount=mockItem.numDownVotes // get the current numDownVotes
+        let theID = mockItem._id
+        let downID = theID + ':dislike'
+        let theDownButton = theApp.find('[id="' + downID + '"]')  // find down button
+        
+        let upID = theID + ':unLike'
+        let theUpButton = theApp.find('[id="' + upID + '"]')       // find up button
+        
         theDownButton.simulate('click')
         theUpButton.simulate('click')
 
-        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount)
+        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount-1)
         expect(appInstance.state.questionList[0].numDownVotes).toEqual(oldDislikeCount)
     })
 
