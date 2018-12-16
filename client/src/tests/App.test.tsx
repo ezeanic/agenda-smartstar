@@ -4,7 +4,9 @@ import App, {UpButton,DownButton SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
-
+import {QuestionEntry} from './QuestionEntry'
+//import Question
+type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 
 configure({ adapter: new ReactSixteenAdapter() });
 
@@ -113,4 +115,59 @@ describe('App UI tests', () => {
           }
         expect(flag)
     })
+
+    it('user tries to write a space first', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange(' i')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("")
+
+    }) 
+    it('user tries to write just a space', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange(' ')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("")
+
+    }) 
+    it('user tries to write many spaces', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange('         ')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("")
+
+    }) 
+    it('user tries to write spaces with a char at end', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange('        t')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("")
+
+    }) 
+    it('user tries to write a char first', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange('t')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("t")
+
+    }) 
+    it('user tries to write a spaces between chars', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleQuestionTextChange('        t       r')
+        //console.log(q5)
+        expect(appInstance.state.questionText).toEqual("")
+
+    }) 
 })
