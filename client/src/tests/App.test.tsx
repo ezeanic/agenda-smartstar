@@ -31,7 +31,7 @@ describe('App UI tests', () => {
     it('click handler is installed in button', () => {
         let fn = jest.fn()
         const mockData = QuestionMOCK_DATA
-        let theApp = mount(<SimpleTable entries={mockData} clickHandler={fn} />)
+        let theApp = mount(<SimpleTable filterText = {""} entries={mockData} clickHandler={fn}/>)
         let theUpButton = theApp.find('[id="acbxyz0002:unLike"]')
         theUpButton.simulate('click')
         expect(fn).toBeCalled()
@@ -59,4 +59,5 @@ describe('App UI tests', () => {
           }
         expect(flag)
     })
+
 })
