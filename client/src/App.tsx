@@ -107,7 +107,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
     }
 }
 
-class SearchBar extends React.Component <SearchBarProps>  {
+export class SearchBar extends React.Component <SearchBarProps>  {
     constructor(props:SearchBarProps) {
       super(props);
       this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
