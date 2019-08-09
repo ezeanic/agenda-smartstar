@@ -116,7 +116,6 @@ describe('App UI tests', () => {
         expect(flag)
     })
 
-<<<<<<< HEAD
     it('user tries to write a space first', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
@@ -172,6 +171,4 @@ describe('App UI tests', () => {
 
     }) 
 })
-=======
-})
->>>>>>> e1582337a58f17376bfb1ecaf884620722e9b145
+
