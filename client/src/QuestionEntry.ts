@@ -1,4 +1,4 @@
-type QuestionEntry = {
+export type QuestionEntry = {
     question: string,
     postDate: Date,
     numUpVotes: number,
@@ -9,9 +9,8 @@ type QuestionEntry = {
     _id: string,
 }
 
-type VoteValidation = {
+export type VoteValidation = {
     err: boolean,
     msg: string
 }
 
-export {QuestionEntry, VoteValidation}

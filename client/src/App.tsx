@@ -203,7 +203,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         let ix = this.state.questionList.findIndex((obj:QuestionEntry) => {
                 return(obj._id === id)
         })
-        if (ix != -1){
+        if (ix !== -1){
             this.doVote(ix, id, direct)
         }
     }
