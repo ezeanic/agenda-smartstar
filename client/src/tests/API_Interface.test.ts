@@ -1,11 +1,10 @@
 import {QuestionMOCK_DATA, VotePassMOCK_DATA, VoteFailMOCK_DATA, PostQuestionMOCK_DATA} from '../Mockdata'
 import {FetchQuestions, PostQuestions, FetchVoting, UpVote, DownVote, NotUpVote, NotDownVote} from '../API_Interface'
 import {QuestionEntry, VoteValidation} from '../QuestionEntry'
-import * as fetch from 'jest-fetch-mock'
-
+import * as fetch2 from 'jest-fetch-mock'
 /* jest-fetch-mock is documented here: https://www.npmjs.com/package/jest-fetch-mock */
-
-let rootUrl = process.env.API_URL
+let fetch=fetch2 as fetch2.FetchMock
+let rootUrl = process.env.API_URL||''
 let _id = "qwerty"
 let question = "this is a new question"
 

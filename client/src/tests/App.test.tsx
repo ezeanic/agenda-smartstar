@@ -1,13 +1,13 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App, {UpButton,DownButton SimpleTable, InputBar} from '../App'
+import App, {UpButton,DownButton, SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
-import {QuestionEntry} from './QuestionEntry'
+import {QuestionEntry} from '../QuestionEntry'
 //import Question
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
-
+//@ts-ignore //ReactSixteenAdapter has a constructor
 configure({ adapter: new ReactSixteenAdapter() });
 
 describe('App UI tests', () => {
@@ -44,7 +44,7 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
-        theTextField.simulate('keypress', {key:'Enter')
+        theTextField.simulate('keypress', {key:'Enter'})
         expect(fn).toBeCalled()
     })
     it('Keypress handler is not called', () => { //this was a test i had hadded to make sure the handler isnt called when enter is not pressed
@@ -53,7 +53,7 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
-        theTextField.simulate('keypress', {key:'p')
+        theTextField.simulate('keypress', {key:'p'})
         expect(fn).not.toBeCalled()
     })
     
@@ -110,7 +110,7 @@ describe('App UI tests', () => {
         let appInstance = theApp.instance() as App
         let flag = true
           for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
-            if(appInstance.state.questionList[ix].numUpvotes < appInstance.state.questionList[ix+1].numUpvotes)
+            if(appInstance.state.questionList[ix].numUpVotes < appInstance.state.questionList[ix+1].numUpVotes)
             flag = false
           }
         expect(flag)
