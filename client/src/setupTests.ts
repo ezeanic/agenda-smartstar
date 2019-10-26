@@ -1,5 +1,6 @@
-import * as fetch from 'jest-fetch-mock'
-const globalAny:any = global; // avoid ts complaining about fetch in global namespace
-
-globalAny.fetch = fetch
+import {GlobalWithFetchMock} from "jest-fetch-mock";
+ 
+const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
+customGlobal.fetch = require('jest-fetch-mock');
+customGlobal.fetchMock = customGlobal.fetch;
 
