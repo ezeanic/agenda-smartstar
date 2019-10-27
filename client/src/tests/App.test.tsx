@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App, {UpButton,DownButton, SimpleTable, InputBar} from '../App'
+import App, {UpButton, DownButton, SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
@@ -27,6 +27,14 @@ describe('App UI tests', () => {
         const anEntry = QuestionMOCK_DATA[0]
         let myUpButton = mount(<UpButton entry={anEntry} clickHandler={fn}/>)
         myUpButton.simulate('click')
+        expect(fn).toBeCalled()
+    })
+
+    it('downButton handles click', () => {
+        let fn = jest.fn()
+        const anEntry = QuestionMOCK_DATA[0]
+        let myDownButton = mount(<DownButton entry={anEntry} clickHandler={fn}/>)
+        myDownButton.simulate('click')
         expect(fn).toBeCalled()
     })
    
