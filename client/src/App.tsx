@@ -159,8 +159,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
         this.handleQuestionSubmitChange=this.handleQuestionSubmitChange.bind(this)
         this.handleFilterTextChange=this.handleFilterTextChange.bind(this)
-       
-
+      
     }
 
     public handleQuestionTextChange(questionText: string){
