@@ -83,7 +83,7 @@ handleKeyPress(e:any){
 
 
 
-export class SimpleTable extends React.Component <{filterText:string, entries:QuestionEntry[], clickHandler?:(e:any)=>void}> {
+export class SimpleTable extends React.Component <{filterText:string, entries:QuestionEntry[], clickHandler?:(e:any)=>void, sortBy:string}> {
     public render() {
         const filterText = this.props.filterText; //new
         //new
@@ -91,9 +91,21 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
         let searchQuestions:any = []
         let rows:any = []
         let entries = this.props.entries
-        entries.sort(function(a:any, b:any){
-          return b.numUpVotes - a.numUpVotes
-        })
+
+        if(this.props.sortBy == 'abc'){
+          //sort alphabetically
+          entries.sort(function(a:any, b:any){
+            return b.question - a.question
+          })
+        }else if(this.props.sortBy == 'likes'){
+          entries.sort(function(a:any, b:any){
+            return b.numUpVotes - a.numUpVotes
+          })
+        }else if(this.props.sortBy == 'dislikes'){
+          entries.sort(function(a:any, b:any){
+            return b.numDownVotes - a.numDownVotes
+          })
+        }
 
         entries.forEach((entry) =>{
             if(entry.question.toLowerCase().indexOf(filterText.toLowerCase()) === -1){
@@ -118,6 +130,25 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
                </tbody>
                </table>
     }
+}
+
+export class DropDownMenu extends React.Component <{onDropDownMenuChange:(value:string)=>void}>{
+  constructor(props:{onDropDownMenuChange:(value:string)=>void} ){
+    super(props);
+    this.handleSortChange = this.handleSortChange.bind(this)
+  }
+
+  public handleSortChange =(e: React.MouseEvent<HTMLOptionElement, MouseEvent>) => {
+    this.props.onDropDownMenuChange((e.target as HTMLInputElement).id)
+  }
+
+  public render(){
+    return <select>
+      <option id="abc" onClick={this.handleSortChange}>Alphabetical</option>
+      <option id="likes">Most likes</option>
+      <option id="dislikes">Most dislikes</option>
+    </select>
+  }
 }
 
 export class SearchBar extends React.Component <SearchBarProps>  {
@@ -146,14 +177,14 @@ export class SearchBar extends React.Component <SearchBarProps>  {
     }
   }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string}> {
+class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string, sortBy:string}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList, questionText: '' , filterText: '' }
+        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: ''}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
 
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
@@ -308,6 +339,10 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
 
   // }
 
+  public handleSortChange = (id:string) =>{
+      this.setState({sortBy:id})
+  }
+
   public render() {
     return (
       <div className="App">
@@ -317,7 +352,8 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         </header>
         <InputBar questionText={this.state.questionText} onQuestionTextChange={this.handleQuestionTextChange} onQuestionSubmitChange={this.handleQuestionSubmitChange}/>
         <SearchBar filterText={this.state.filterText} onFilterTextChange={this.handleFilterTextChange}/>
-        <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText}/>
+        <DropDownMenu onDropDownMenuChange={this.handleSortChange}/>
+        <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy}/>
       </div>
     )
   }
