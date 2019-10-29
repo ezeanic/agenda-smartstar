@@ -7,6 +7,19 @@ import {StatsRoutes } from "./routes/statsRoutes"
 import * as mongoose from "mongoose"
 import * as cookieParser from "cookie-parser"
 import { CookieController } from "./controllers/cookieController";
+import * as passport from "passport"
+import { BasicStrategy } from "passport-http"
+
+passport.use(new BasicStrategy(
+    (username, password, done)  => {
+        if (username == 'joe' && (password == 'secret')) {
+            return done(null, {user: "joe"})
+        } else {
+            return (done(null, false))
+        }
+   })
+)
+
 class App {
 
     public app: express.Application
