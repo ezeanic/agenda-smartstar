@@ -10,7 +10,7 @@
     "build": "tsc",
     "dev": "ts-node ./src/server.ts",
     "start": "./util/check.sh -h mongo -p 27017 && npm run build && nodemon ./dist/server.js",
-    "test": "tsc --noEmit -p . && jest --no-cache",
+    "test": "tsc --noEmit -p . && jest --env node --no-cache",
     "prod": "npm run build && npm run start"
   },
   "license": "ISC",

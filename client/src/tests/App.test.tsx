@@ -1,13 +1,17 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+<<<<<<< HEAD
 import App, {UpButton,DownButton, SimpleTable, InputBar} from '../App'
+=======
+import App, {UpButton, DownButton, SimpleTable, InputBar} from '../App'
+>>>>>>> 0787c30492525825c493208ebd941e36d0ced1c0
 import {QuestionMOCK_DATA} from '../Mockdata'
-import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
+import ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, shallow, mount } from 'enzyme'
 import {QuestionEntry} from '../QuestionEntry'
 //import Question
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
-
+//@ts-ignore //ReactSixteenAdapter has a constructor
 configure({ adapter: new ReactSixteenAdapter() });
 
 describe('App UI tests', () => {
@@ -29,6 +33,14 @@ describe('App UI tests', () => {
         myUpButton.simulate('click')
         expect(fn).toBeCalled()
     })
+
+    it('downButton handles click', () => {
+        let fn = jest.fn()
+        const anEntry = QuestionMOCK_DATA[0]
+        let myDownButton = mount(<DownButton entry={anEntry} clickHandler={fn}/>)
+        myDownButton.simulate('click')
+        expect(fn).toBeCalled()
+    })
    
     it('click handler is installed in button', () => {
         let fn = jest.fn()
@@ -44,7 +56,7 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
-        theTextField.simulate('keypress', {key:'Enter')
+        theTextField.simulate('keypress', {key:'Enter'})
         expect(fn).toBeCalled()
     })
     it('Keypress handler is not called', () => { //this was a test i had hadded to make sure the handler isnt called when enter is not pressed
@@ -53,7 +65,7 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theInputBar = mount(<InputBar onQuestionTextChange = {dummy} onQuestionSubmitChange = {fn} questionText = {""}  />)
         let theTextField = theInputBar.find('input')
-        theTextField.simulate('keypress', {key:'p')
+        theTextField.simulate('keypress', {key:'p'})
         expect(fn).not.toBeCalled()
     })
     

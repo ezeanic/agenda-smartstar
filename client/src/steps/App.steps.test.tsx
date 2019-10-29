@@ -2,7 +2,7 @@ import * as React from 'react'
 import App from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import {QuestionEntry} from '../QuestionEntry'
-import * as ReactSixteenAdapter from 'enzyme-adapter-react-16'
+import ReactSixteenAdapter from 'enzyme-adapter-react-16'
 import { configure, mount } from 'enzyme'
 
 configure({ adapter: new ReactSixteenAdapter() })
