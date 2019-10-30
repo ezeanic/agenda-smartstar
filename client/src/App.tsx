@@ -92,16 +92,24 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
         let rows:any = []
         let entries = this.props.entries
 
-        if(this.props.sortBy == 'abc'){
+        if(this.props.sortBy == "abc"){
           //sort alphabetically
           entries.sort(function(a:any, b:any){
-            return b.question - a.question
+            if (b.question < a.question){
+              return 1
+            }
+            else if (b.question > a.question){
+              return -1
+            }
+            else{
+              return 0
+            }
           })
-        }else if(this.props.sortBy == 'likes'){
+        }else if(this.props.sortBy == "likes"){
           entries.sort(function(a:any, b:any){
             return b.numUpVotes - a.numUpVotes
           })
-        }else if(this.props.sortBy == 'dislikes'){
+        }else if(this.props.sortBy == "dislikes"){
           entries.sort(function(a:any, b:any){
             return b.numDownVotes - a.numDownVotes
           })
@@ -132,19 +140,19 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
     }
 }
 
-export class DropDownMenu extends React.Component <{onDropDownMenuChange:(value:string)=>void}>{
-  constructor(props:{onDropDownMenuChange:(value:string)=>void} ){
+export class DropDownMenu extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
+  constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
     super(props);
     this.handleSortChange = this.handleSortChange.bind(this)
   }
 
-  public handleSortChange =(e: React.MouseEvent<HTMLOptionElement, MouseEvent>) => {
-    this.props.onDropDownMenuChange((e.target as HTMLInputElement).id)
+  public handleSortChange =(e: React.ChangeEvent<HTMLSelectElement>) => {
+    this.props.onDropDownMenuChange(e.target.selectedOptions[0].id)
   }
 
   public render(){
-    return <select>
-      <option id="abc" onClick={this.handleSortChange}>Alphabetical</option>
+    return <select onChange = {this.handleSortChange}>
+      <option id="abc">Alphabetical</option>
       <option id="likes">Most likes</option>
       <option id="dislikes">Most dislikes</option>
     </select>
@@ -341,6 +349,8 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
 
   public handleSortChange = (id:string) =>{
       this.setState({sortBy:id})
+  
+      
   }
 
   public render() {
