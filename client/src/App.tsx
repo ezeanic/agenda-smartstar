@@ -113,6 +113,18 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
           entries.sort(function(a:any, b:any){
             return b.numDownVotes - a.numDownVotes
           })
+        }else if(this.props.sortBy == "byDate"){
+          entries.sort(function(a:any, b:any){
+            if (b.postDate < a.postDate){
+              return 1
+            }
+            else if (b.postDate > a.postDate){
+              return -1
+            }
+            else{
+              return 0
+            }
+          })
         }
 
         entries.forEach((entry) =>{
@@ -152,6 +164,7 @@ export class DropDownMenu extends React.Component <{onDropDownMenuChange:(id:str
 
   public render(){
     return <select onChange = {this.handleSortChange}>
+      <option id="byDate" selected>Most recent</option>
       <option id="abc">Alphabetical</option>
       <option id="likes">Most likes</option>
       <option id="dislikes">Most dislikes</option>
