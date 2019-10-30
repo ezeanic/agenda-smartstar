@@ -164,7 +164,8 @@ export class DropDownMenu extends React.Component <{onDropDownMenuChange:(id:str
 
   public render(){
     return <select onChange = {this.handleSortChange}>
-      <option id="byDate" selected>Most recent</option>
+      <option selected hidden>Sort By</option>
+      <option id="byDate">Most recent</option>
       <option id="abc">Alphabetical</option>
       <option id="likes">Most likes</option>
       <option id="dislikes">Most dislikes</option>
