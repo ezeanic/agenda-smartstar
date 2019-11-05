@@ -130,28 +130,35 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
         }
 
         entries.forEach((entry) =>{
+
             if(entry.question.toLowerCase().indexOf(filterText.toLowerCase()) === -1){
                 return;
             }
            
             searchQuestions.push(entry)})
             
-            
-        if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
-            for(i = (this.props.start); i < searchQuestions.length; i++){
+        if(this.props.start > searchQuestions.length){
+
+
+        }
+        else if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
+          for(i = (this.props.start); i < searchQuestions.length; i++){
+            rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+            <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+            <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+            </tr>)}
+
+        }    
+        else if(this.props.start < searchQuestions.length && this.props.end < searchQuestions.length){
+            for(i = this.props.start; i < this.props.start + this.props.batch; i++){
               rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
               <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
               <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
               </tr>)
             }
-        }else if(this.props.batch == 5 && searchQuestions.length >= 5){
-            for(i = this.props.start; i < this.props.end; i++){
-              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-              </tr>)
-            }
-        }else if(this.props.batch == 10 && searchQuestions.length >= 10){
+            this.setState({moreQuestions:false})
+          }
+       /* }else if(this.props.batch == 10 && searchQuestions.length >= 10){
             for(i = this.props.start; i < this.props.end; i++){
               rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
               <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
@@ -179,7 +186,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
             <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
             </tr>)
           }
-        }
+        }*/
 
         // for (let ix in searchQuestions) {
         //     rows.push(<tr key={ix}><td className="App-table">{searchQuestions[ix].question}</td>
@@ -194,6 +201,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
                 <tbody>
                 <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
                 {rows}
+                
                </tbody>
                </table>
     }
