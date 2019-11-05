@@ -5,6 +5,7 @@ import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} 
 
 import {QuestionMOCK_DATA} from './Mockdata'
 import logo from './logo.svg';
+import { throwStatement } from '@babel/types';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 type InputBarProps = {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:()=>void, questionText:string} //just added to create props for input bar
@@ -83,7 +84,7 @@ handleKeyPress(e:any){
 
 
 
-export class SimpleTable extends React.Component <{filterText:string, entries:QuestionEntry[], clickHandler?:(e:any)=>void, sortBy:string}> {
+export class SimpleTable extends React.Component <{filterText:string, entries:QuestionEntry[], clickHandler?:(e:any)=>void, sortBy:string, batch:number, start:number, end:number}> {
     public render() {
         const filterText = this.props.filterText; //new
         //new
@@ -91,6 +92,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
         let searchQuestions:any = []
         let rows:any = []
         let entries = this.props.entries
+        let i = 0
 
         if(this.props.sortBy == "abc"){
           //sort alphabetically
@@ -133,13 +135,58 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
             }
            
             searchQuestions.push(entry)})
-         
-        for (let ix in searchQuestions) {
-            rows.push(<tr key={ix}><td className="App-table">{searchQuestions[ix].question}</td>
-            <td className="App-table"><UpButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numUpVotes}</span></td>
-            <td className="App-table"><DownButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numDownVotes}</span></td>
+            
+            
+        if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
+            for(i = (this.props.start); i < searchQuestions.length; i++){
+              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+              </tr>)
+            }
+        }else if(this.props.batch == 5 && searchQuestions.length >= 5){
+            for(i = this.props.start; i < this.props.end; i++){
+              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+              </tr>)
+            }
+        }else if(this.props.batch == 10 && searchQuestions.length >= 10){
+            for(i = this.props.start; i < this.props.end; i++){
+              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+              </tr>)
+            }
+        }else if(this.props.batch == 20 && searchQuestions.length >= 20){
+            for(i = this.props.start; i < this.props.end; i++){
+              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+              </tr>)
+            }
+        }else if(this.props.batch == 50 && searchQuestions.length >= 50){
+            for(i = this.props.start; i < this.props.end; i++){
+              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+              </tr>)
+            }
+        }else{
+          for(i = 0; i < searchQuestions.length; i++){
+            rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+            <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+            <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
             </tr>)
+          }
         }
+
+        // for (let ix in searchQuestions) {
+        //     rows.push(<tr key={ix}><td className="App-table">{searchQuestions[ix].question}</td>
+        //     <td className="App-table"><UpButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numUpVotes}</span></td>
+        //     <td className="App-table"><DownButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numDownVotes}</span></td>
+        //     </tr>)
+        // }
 
        
                
@@ -183,8 +230,6 @@ export class SearchBar extends React.Component <SearchBarProps>  {
       this.props.onFilterTextChange(e.target.value);
     }
     
-   
-    
     render() {
       return (
         <form>
@@ -199,14 +244,58 @@ export class SearchBar extends React.Component <SearchBarProps>  {
     }
   }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string, sortBy:string}> {
+export class PageButtons extends React.Component <{onNextPageClick:()=>void, onPrevPageClick:()=>void}>{
+  constructor(props:{onNextPageClick:()=>void, onPrevPageClick:()=>void}) {
+    super(props);
+    this.handleNextPageClick = this.handleNextPageClick.bind(this);
+    this.handlePrevPageClick = this.handlePrevPageClick.bind(this);
+  }
+
+  handleNextPageClick(e:any){ // button action
+    this.props.onNextPageClick();
+  }
+  handlePrevPageClick(e:any){ // button action
+    this.props.onPrevPageClick();
+  }
+
+  public render(){
+    return <table>
+      <div className="App-batch">
+        <button onClick={this.handlePrevPageClick} type="button"> Previous Page </button>
+        <button onClick={this.handleNextPageClick} type="button"> Next Page </button>
+      </div>
+    </table>
+  }
+}
+
+export class BatchingDropDown extends React.Component<{onBatchSizeChange:(id:string)=>void}>{
+  constructor(props:{onBatchSizeChange:(id:string)=>void} ){
+    super(props);
+    this.handleBatchSizeChange = this.handleBatchSizeChange.bind(this)
+  }
+  
+  public handleBatchSizeChange =(e: React.ChangeEvent<HTMLSelectElement>) => {
+    this.props.onBatchSizeChange(e.target.selectedOptions[0].id)
+  }
+
+  public render(){
+    return <select onChange={this.handleBatchSizeChange}>
+    <option id="five">Show 5 Questions</option>
+    <option selected id="ten">Show 10 Questions</option>
+    <option id="twenty">Show 20 Questions</option>
+    <option id="fifty">Show 50 Questions</option>
+  </select>
+  }
+}
+
+class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string, sortBy:string, batchSize:number, start: number, end: number}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: ''}
+        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: '', batchSize: 0, start:0, end:0}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
 
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
@@ -363,8 +452,30 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
 
   public handleSortChange = (id:string) =>{
       this.setState({sortBy:id})
-  
-      
+  }
+
+  public onBatchSizeChange = (id:string) =>{
+    if(id == 'five'){
+      this.setState({batchSize:5, start:0, end:5})
+    }else if(id == 'ten'){
+      this.setState({batchSize:10, start:0, end:10})
+    }else if(id == 'twenty'){
+      this.setState({batchSize:20, start:0, end:20})
+    }else if(id == 'fifty'){
+      this.setState({batchSize:50, start:0, end:50})
+    }
+  }
+
+  public onNextPageClick = ()=>{
+    let newStart = this.state.start + this.state.batchSize
+    this.setState({start: newStart})
+    this.setState({end:newStart+this.state.batchSize})
+  }
+
+  public onPrevPageClick = ()=>{
+    let newStart = this.state.start - this.state.batchSize    
+    this.setState({start:newStart})
+    this.setState({end:newStart+this.state.batchSize})
   }
 
   public render() {
@@ -376,8 +487,10 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         </header>
         <InputBar questionText={this.state.questionText} onQuestionTextChange={this.handleQuestionTextChange} onQuestionSubmitChange={this.handleQuestionSubmitChange}/>
         <SearchBar filterText={this.state.filterText} onFilterTextChange={this.handleFilterTextChange}/>
+        <BatchingDropDown onBatchSizeChange={this.onBatchSizeChange}/>
         <DropDownMenu onDropDownMenuChange={this.handleSortChange}/>
-        <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy}/>
+        <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy} batch={this.state.batchSize} start={this.state.start} end={this.state.end}/>
+        <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick}/>
       </div>
     )
   }
