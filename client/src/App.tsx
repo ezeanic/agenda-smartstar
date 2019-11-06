@@ -158,42 +158,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
             }
             this.setState({moreQuestions:false})
           }
-       /* }else if(this.props.batch == 10 && searchQuestions.length >= 10){
-            for(i = this.props.start; i < this.props.end; i++){
-              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-              </tr>)
-            }
-        }else if(this.props.batch == 20 && searchQuestions.length >= 20){
-            for(i = this.props.start; i < this.props.end; i++){
-              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-              </tr>)
-            }
-        }else if(this.props.batch == 50 && searchQuestions.length >= 50){
-            for(i = this.props.start; i < this.props.end; i++){
-              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-              </tr>)
-            }
-        }else{
-          for(i = 0; i < searchQuestions.length; i++){
-            rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-            <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-            <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-            </tr>)
-          }
-        }*/
 
-        // for (let ix in searchQuestions) {
-        //     rows.push(<tr key={ix}><td className="App-table">{searchQuestions[ix].question}</td>
-        //     <td className="App-table"><UpButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numUpVotes}</span></td>
-        //     <td className="App-table"><DownButton entry={searchQuestions[ix]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[ix].numDownVotes}</span></td>
-        //     </tr>)
-        // }
 
        
                
@@ -252,8 +217,8 @@ export class SearchBar extends React.Component <SearchBarProps>  {
     }
   }
 
-export class PageButtons extends React.Component <{onNextPageClick:()=>void, onPrevPageClick:()=>void}>{
-  constructor(props:{onNextPageClick:()=>void, onPrevPageClick:()=>void}) {
+export class PageButtons extends React.Component <{onNextPageClick:()=>void, onPrevPageClick:()=>void, setNextDisabled: boolean, setPrevDisabled: boolean}>{
+  constructor(props:{onNextPageClick:()=>void, onPrevPageClick:()=>void, setNextDisabled: boolean, setPrevDisabled: boolean}) {
     super(props);
     this.handleNextPageClick = this.handleNextPageClick.bind(this);
     this.handlePrevPageClick = this.handlePrevPageClick.bind(this);
@@ -269,8 +234,8 @@ export class PageButtons extends React.Component <{onNextPageClick:()=>void, onP
   public render(){
     return <table>
       <div className="App-batch">
-        <button onClick={this.handlePrevPageClick} type="button"> Previous Page </button>
-        <button onClick={this.handleNextPageClick} type="button"> Next Page </button>
+        <button onClick={this.handlePrevPageClick} type="button" disabled={this.props.setPrevDisabled}> Previous Page </button>
+        <button onClick={this.handleNextPageClick} type="button" disabled={this.props.setNextDisabled}> Next Page </button>
       </div>
     </table>
   }
@@ -296,14 +261,14 @@ export class BatchingDropDown extends React.Component<{onBatchSizeChange:(id:str
   }
 }
 
-class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string, sortBy:string, batchSize:number, start: number, end: number}> {
+class App extends React.Component <AppProps, {questionList: QuestionEntry[], questionText: string , filterText: string, sortBy:string, batchSize:number, start: number, end: number, setNextDisabled: boolean, setPrevDisabled: boolean}> {
     constructor(props: AppProps) {
         super(props)
         let defaultList: QuestionEntry[] = []
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: '', batchSize: 0, start:0, end:0}
+        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: '', batchSize: 0, start:0, end:0, setPrevDisabled: false, setNextDisabled: false}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
 
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
@@ -476,14 +441,22 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
 
   public onNextPageClick = ()=>{
     let newStart = this.state.start + this.state.batchSize
-    this.setState({start: newStart})
-    this.setState({end:newStart+this.state.batchSize})
+    if(newStart > this.state.questionList.length){
+      this.setState({setNextDisabled:true})
+    }else{
+      this.setState({start: newStart})
+      this.setState({end:newStart+this.state.batchSize})
+    }
   }
 
   public onPrevPageClick = ()=>{
-    let newStart = this.state.start - this.state.batchSize    
-    this.setState({start:newStart})
-    this.setState({end:newStart+this.state.batchSize})
+    let newStart = this.state.start - this.state.batchSize  
+    if(newStart < 0){
+      this.setState({setPrevDisabled:true})
+    }else{
+      this.setState({start:newStart})
+      this.setState({end:newStart+this.state.batchSize})
+    } 
   }
 
   public render() {
@@ -498,7 +471,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         <BatchingDropDown onBatchSizeChange={this.onBatchSizeChange}/>
         <DropDownMenu onDropDownMenuChange={this.handleSortChange}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy} batch={this.state.batchSize} start={this.state.start} end={this.state.end}/>
-        <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick}/>
+        {/* <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick} setPrevDisabled={this.state.setPrevDisabled} setNextDisabled={this.state.setNextDisabled}/> */}
       </div>
     )
   }
