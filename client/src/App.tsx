@@ -156,17 +156,12 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
               <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
               </tr>)
             }
-            this.setState({moreQuestions:false})
           }
-
-
-       
                
         return <table  className="App-center">
                 <tbody>
                 <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
                 {rows}
-                
                </tbody>
                </table>
     }
@@ -471,7 +466,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         <BatchingDropDown onBatchSizeChange={this.onBatchSizeChange}/>
         <DropDownMenu onDropDownMenuChange={this.handleSortChange}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy} batch={this.state.batchSize} start={this.state.start} end={this.state.end}/>
-        {/* <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick} setPrevDisabled={this.state.setPrevDisabled} setNextDisabled={this.state.setNextDisabled}/> */}
+        <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick} setPrevDisabled={this.state.setPrevDisabled} setNextDisabled={this.state.setNextDisabled}/>
       </div>
     )
   }
