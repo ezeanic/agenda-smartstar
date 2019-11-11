@@ -5,7 +5,7 @@ import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} 
 
 import {QuestionMOCK_DATA} from './Mockdata'
 import logo from './logo.svg';
-import { throwStatement } from '@babel/types';
+import { throwStatement, tsExpressionWithTypeArguments } from '@babel/types';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 type InputBarProps = {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:()=>void, questionText:string} //just added to create props for input bar
@@ -23,12 +23,11 @@ export class UpButton extends React.Component <{entry:QuestionEntry, clickHandle
      let entry = this.props.entry
     if(entry.canUpVote == true && entry.canDownVote == true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
-    } else if(entry.canUpVote == false && entry.canDownVote == true){
+    }else if(entry.canUpVote == false && entry.canDownVote == true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
-    } else {
+    }else {
       return <button type="button" id={entry._id + ':like'}>Like</button>
     }
-
   }
 }
 
@@ -82,89 +81,87 @@ handleKeyPress(e:any){
   }
 }
 
-
-
 export class SimpleTable extends React.Component <{filterText:string, entries:QuestionEntry[], clickHandler?:(e:any)=>void, sortBy:string, batch:number, start:number, end:number}> {
-    public render() {
-        const filterText = this.props.filterText; //new
-        //new
+  public render() {
+    const filterText = this.props.filterText; //new
 
-        let searchQuestions:any = []
-        let rows:any = []
-        let entries = this.props.entries
-        let i = 0
+    let searchQuestions:any = []
+    let rows:any = []
+    let entries = this.props.entries
+    let i = 0
 
-        if(this.props.sortBy == "abc"){
-          //sort alphabetically
-          entries.sort(function(a:any, b:any){
-            if (b.question < a.question){
-              return 1
-            }
-            else if (b.question > a.question){
-              return -1
-            }
-            else{
-              return 0
-            }
-          })
-        }else if(this.props.sortBy == "likes"){
-          entries.sort(function(a:any, b:any){
-            return b.numUpVotes - a.numUpVotes
-          })
-        }else if(this.props.sortBy == "dislikes"){
-          entries.sort(function(a:any, b:any){
-            return b.numDownVotes - a.numDownVotes
-          })
-        }else if(this.props.sortBy == "byDate"){
-          entries.sort(function(a:any, b:any){
-            if (b.postDate < a.postDate){
-              return 1
-            }
-            else if (b.postDate > a.postDate){
-              return -1
-            }
-            else{
-              return 0
-            }
-          })
+    if(this.props.sortBy == "abc"){
+      //sort alphabetically
+      entries.sort(function(a:any, b:any){
+        if (b.question < a.question){
+          return 1
         }
-
-        entries.forEach((entry) =>{
-
-            if(entry.question.toLowerCase().indexOf(filterText.toLowerCase()) === -1){
-                return;
-            }
-           
-            searchQuestions.push(entry)})
-            
-        if(this.props.start > searchQuestions.length){
-
-
+        else if (b.question > a.question){
+          return -1
         }
-        else if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
-          for(i = (this.props.start); i < searchQuestions.length; i++){
-            rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-            <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-            <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-            </tr>)}
-
-        }    
-        else if(this.props.start < searchQuestions.length && this.props.end < searchQuestions.length){
-            for(i = this.props.start; i < this.props.start + this.props.batch; i++){
-              rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
-              <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
-              <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
-              </tr>)
-            }
-          }
-               
-        return <table  className="App-center">
-                <tbody>
-                <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
-                {rows}
-               </tbody>
-               </table>
+        else{
+          return 0
+        }
+      })
+    }else if(this.props.sortBy == "likes"){
+      entries.sort(function(a:any, b:any){
+        return b.numUpVotes - a.numUpVotes
+      })
+    }else if(this.props.sortBy == "dislikes"){
+      entries.sort(function(a:any, b:any){
+        return b.numDownVotes - a.numDownVotes
+      })
+    }else if(this.props.sortBy == "byDate"){
+      entries.sort(function(a:any, b:any){
+        if (b.postDate < a.postDate){
+          return 1
+        }
+        else if (b.postDate > a.postDate){
+          return -1
+        }
+        else{
+          return 0
+        }
+      })
     }
+
+    entries.forEach((entry) =>{
+      if(entry.question.toLowerCase().indexOf(filterText.toLowerCase()) === -1){
+      return;
+      }    
+    searchQuestions.push(entry)})
+
+    if(this.props.start == 0 && this.props.end == 0){
+      for(i = 0; i < searchQuestions.length; i++){
+        rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+        <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+        <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+        </tr>)
+      }
+    }else if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
+      for(i = (this.props.start); i < searchQuestions.length; i++){
+        rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+        <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+        <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+        </tr>)
+      }
+    }    
+    else if(this.props.start < searchQuestions.length && this.props.end < searchQuestions.length){
+      for(i = this.props.start; i < this.props.start + this.props.batch; i++){
+        rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
+        <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
+        <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
+        </tr>)
+      }
+    }
+               
+    return <table  className="App-center">
+      <tbody>
+      <tr><th className="App-table">Question</th><th className="App-table">Like</th><th className="App-table">Dislike</th></tr>
+      {rows}
+      </tbody>
+      </table>
+  }
 }
 
 export class DropDownMenu extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
@@ -227,12 +224,10 @@ export class PageButtons extends React.Component <{onNextPageClick:()=>void, onP
   }
 
   public render(){
-    return <table>
-      <div className="App-batch">
+    return <div className="App-batch">
         <button onClick={this.handlePrevPageClick} type="button" disabled={this.props.setPrevDisabled}> Previous Page </button>
         <button onClick={this.handleNextPageClick} type="button" disabled={this.props.setNextDisabled}> Next Page </button>
       </div>
-    </table>
   }
 }
 
@@ -436,22 +431,26 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
 
   public onNextPageClick = ()=>{
     let newStart = this.state.start + this.state.batchSize
-    if(newStart > this.state.questionList.length){
-      this.setState({setNextDisabled:true})
-    }else{
+    if(newStart < this.state.questionList.length){
       this.setState({start: newStart})
       this.setState({end:newStart+this.state.batchSize})
     }
+    if(newStart >= this.state.questionList.length - this.state.batchSize){
+      this.setState({setNextDisabled:true})
+    }
+    this.setState({setPrevDisabled:false})
   }
 
   public onPrevPageClick = ()=>{
     let newStart = this.state.start - this.state.batchSize  
-    if(newStart < 0){
-      this.setState({setPrevDisabled:true})
-    }else{
+    if(newStart >= 0){
       this.setState({start:newStart})
       this.setState({end:newStart+this.state.batchSize})
-    } 
+    }
+    if(newStart < this.state.batchSize){
+      this.setState({setPrevDisabled:true})
+    }
+    this.setState({setNextDisabled:false})
   }
 
   public render() {
