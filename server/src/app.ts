@@ -9,14 +9,16 @@ import * as cookieParser from "cookie-parser"
 import { CookieController } from "./controllers/cookieController";
 import * as passport from "passport"
 import { BasicStrategy } from "passport-http"
+import * as crypto from 'crypto'
+import { UserController } from "./controllers/authorizedUserController"
 
 passport.use(new BasicStrategy(
     (username, password, done)  => {
-        if (username == 'joe' && (password == 'secret')) {
-            return done(null, {user: "joe"})
-        } else {
-            return (done(null, false))
-        }
+        let myHash = crypto.createHmac('sha256', password).digest('hex')
+        
+        let myUserControler = new UserController()
+
+        myUserControler.getUserIdPassword(username, myHash, done)
    })
 )
 
@@ -45,6 +47,13 @@ class App {
         // serving static files 
         this.app.use(cookieParser())
         
+        this.app.get('/check',
+        passport.authenticate('basic', { session: false, successRedirect: '/'}),
+	    function(req:express.Request, res: express.Response) {
+            console.log("OK! Correct Password")
+            res.send("OK! Correct Password")
+        })
+        
         this.app.use((req: express.Request, res: express.Response, next: express.NextFunction)  => {
             if (req.cookies.usertag == undefined) {
                 // while cookie is undefined, create new cookie
@@ -54,6 +63,7 @@ class App {
             }
         })
         this.app.use(express.static('public'))
+        
     }
 
     private mongoConnect(): void{
