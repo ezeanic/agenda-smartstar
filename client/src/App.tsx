@@ -164,7 +164,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
   }
 }
 
-export class DropDownMenu extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
+export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
   constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
     super(props);
     this.handleSortChange = this.handleSortChange.bind(this)
@@ -243,8 +243,9 @@ export class BatchingDropDown extends React.Component<{onBatchSizeChange:(id:str
 
   public render(){
     return <select onChange={this.handleBatchSizeChange}>
+    <option selected hidden>Show all</option>
     <option id="five">Show 5 Questions</option>
-    <option selected id="ten">Show 10 Questions</option>
+    <option id="ten">Show 10 Questions</option>
     <option id="twenty">Show 20 Questions</option>
     <option id="fifty">Show 50 Questions</option>
   </select>
@@ -258,7 +259,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         if (this.props.testQList) {
             defaultList = this.props.testQList
         }
-        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: '', batchSize: 0, start:0, end:0, setPrevDisabled: false, setNextDisabled: false}
+        this.state = {questionList: defaultList, questionText: '' , filterText: '' , sortBy: '', batchSize: 0, start:0, end:0, setPrevDisabled: true, setNextDisabled: true}
         this.handleClick = this.handleClick.bind(this) //should we change this name to handleVote?
 
         this.handleQuestionTextChange=this.handleQuestionTextChange.bind(this)
@@ -427,6 +428,8 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
     }else if(id == 'fifty'){
       this.setState({batchSize:50, start:0, end:50})
     }
+    this.setState({setNextDisabled:false})
+    this.setState({setPrevDisabled:true})
   }
 
   public onNextPageClick = ()=>{
@@ -463,7 +466,7 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         <InputBar questionText={this.state.questionText} onQuestionTextChange={this.handleQuestionTextChange} onQuestionSubmitChange={this.handleQuestionSubmitChange}/>
         <SearchBar filterText={this.state.filterText} onFilterTextChange={this.handleFilterTextChange}/>
         <BatchingDropDown onBatchSizeChange={this.onBatchSizeChange}/>
-        <DropDownMenu onDropDownMenuChange={this.handleSortChange}/>
+        <SortDropDown onDropDownMenuChange={this.handleSortChange}/>
         <SimpleTable entries={this.state.questionList} clickHandler={this.handleClick} filterText={this.state.filterText} sortBy={this.state.sortBy} batch={this.state.batchSize} start={this.state.start} end={this.state.end}/>
         <PageButtons onNextPageClick={this.onNextPageClick} onPrevPageClick={this.onPrevPageClick} setPrevDisabled={this.state.setPrevDisabled} setNextDisabled={this.state.setNextDisabled}/>
       </div>
