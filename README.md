@@ -2,7 +2,7 @@ SWEN 200, Class Collaboration Project: Agenda
 ==============================================
 
 This is the GitHub repository for `Agenda` the 
-next viral app on the InterWebs(tm)!
+next viral app on the InterWebs(tm)! Check.
 
 To get started, open a terminal window in the `agenda` directory containing this
 repository. Build the docker images for client/server:
