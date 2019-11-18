@@ -12,19 +12,13 @@ export class UserController{
             if(err){
                 console.log(err)
                 done(err,false);
-            }
-
-            if(userlist.length === 0){
+            } else if(userlist.length === 0){
                 done(null, false)
-            }
-            
-            //checks password
-            if(userlist[0].password == hash){
+            } else if(userlist[0].password == hash){
                 done(null, {userName:userName})
             } else {
                 done(null, false)
             }
-
         });
     }
 

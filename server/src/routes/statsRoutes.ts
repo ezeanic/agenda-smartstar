@@ -21,6 +21,7 @@ export class StatsRoutes {
             // middleware
             console.log(`Request from: ${req.originalUrl}`)
             console.log(`Request type: ${req.method}`)
+            console.log("request object" + 
             next()
         }, this.statsController.getQuestionsStats) 
         .post(this.statsController.getQuestionsStats)

@@ -1,18 +1,64 @@
+# Authentication
 
-docker-compose up
+# Importing Authorized User Data to a Database
 
-docker exect -it agenda_mongo_1 bash
+For authentication, we had to import a csv file into mongo so that when a user is prompted to enter their credentials, it searches a database for the correct username and hashed password. The csv file that contains authorized user information is under data->authorizedUsers.csv. Too add/delete users, change the csv file & re-import it to mongo db.
+How to do this:
 
-mongo testdb
+Enter Mongo DB shell
 
-show collections
+    docker-compose up
 
-mongo
+    docker exect -it agenda_mongo_1 bash
 
-show dbs
+    mongo testdb
 
-use testdb
+See what collections are in testdb
 
-show collections
+    show collections
 
-mongoimport -d testdb -c users --type=csv --headlerline /data/exchange/authorizedUsers.csv
+Display what is in the collection "users"
+
+    db.users.find()
+
+Delete everything that is in "users"
+
+        db.users.deleteMany({})
+
+Then control + D back into root & import data using 
+
+    mongoimport -d testdb -c users --type=csv --headerline /data/exchange/authorizedUsers.csv
+
+Go back into Mongo DB shell to check if csv file was imported by displaying the data in "users"
+
+        mongo testdb
+
+        show collections
+
+        db.users.find() 
+
+---
+
+# Creating A Hashed Password Using Node.js
+
+1. Open Node.js
+
+2. To access the module, type in:
+
+        const crypto = require('crypto')
+
+3. Create your password:
+
+        const mypass = 'Mynewpass123'
+
+4. Hash the password that you have made:
+
+        const hashed = crypto.createHmac('sha256', mypass).digest('hex')
+
+5. Display the hashed password:
+
+        console.log(hashed)
+
+The hashed version of your password should be displayed & you can insert it into the csv file under the password headerline.
+
+# Authentication Process
