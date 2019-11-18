@@ -138,7 +138,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
         <td className="App-table"><DownButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numDownVotes}</span></td>
         </tr>)
       }
-    }else if(this.props.start < searchQuestions.length && this.props.end > searchQuestions.length){
+    }else if(this.props.start < searchQuestions.length && this.props.end >= searchQuestions.length){
       for(i = (this.props.start); i < searchQuestions.length; i++){
         rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
         <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
