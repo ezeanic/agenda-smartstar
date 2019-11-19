@@ -14,7 +14,7 @@ function genBatchTest(it:jest.It,batch:number,start:number,end:number){
             const mockData= QuestionMOCK_DATA
             let table = mount(<SimpleTable batch={batch} end={end} start={start} entries={mockData} filterText={''} sortBy={''} clickHandler={()=>{}}/>)
             let expected = (start==0&&end==0)?QuestionMOCK_DATA.length:end>QuestionMOCK_DATA.length?QuestionMOCK_DATA.length-start:batch
-            expect(table.render().children('table').children('tbody').length).toBe(expected+1)
+            expect(table.render().children().children().length).toBe(expected+1)
     })
 }
 describe('App UI tests', () => {
@@ -31,7 +31,7 @@ describe('App UI tests', () => {
 
     it('upButton handles like click', () => {
         let fn = jest.fn()
-        const anEntry = QuestionMOCK_DATA[0]
+        const anEntry = QuestionMOCK_DATA[1]
         let myUpButton = mount(<UpButton entry={anEntry} clickHandler={fn}/>)
         myUpButton.simulate('click')
         expect(fn).toBeCalled()
@@ -39,7 +39,7 @@ describe('App UI tests', () => {
 
     it('downButton handles click', () => {
         let fn = jest.fn()
-        const anEntry = QuestionMOCK_DATA[0]
+        const anEntry = QuestionMOCK_DATA[1]
         let myDownButton = mount(<DownButton entry={anEntry} clickHandler={fn}/>)
         myDownButton.simulate('click')
         expect(fn).toBeCalled()

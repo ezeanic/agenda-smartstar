@@ -94,10 +94,10 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
       //sort alphabetically
       entries.sort(function(a:any, b:any){
         if (b.question < a.question){
-          return 1
+          return -1
         }
         else if (b.question > a.question){
-          return -1
+          return 1
         }
         else{
           return 0
@@ -114,10 +114,10 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
     }else if(this.props.sortBy == "byDate"){
       entries.sort(function(a:any, b:any){
         if (b.postDate < a.postDate){
-          return 1
+          return -1
         }
         else if (b.postDate > a.postDate){
-          return -1
+          return 1
         }
         else{
           return 0
