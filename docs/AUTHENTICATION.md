@@ -9,7 +9,7 @@ Enter Mongo DB shell
 
     docker-compose up
 
-    docker exect -it agenda_mongo_1 bash
+    docker exec -it agenda_mongo_1 bash
 
     mongo testdb
 

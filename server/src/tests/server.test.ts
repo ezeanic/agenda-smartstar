@@ -11,6 +11,15 @@ MOCK_DATA[0] = {
 MOCK_DATA[1] = {
     question: 'HOW IS THIS QUESTION??'
                     }
+class MockUser{
+    public username: string
+    public password: string
+
+    public user(username: string, password: string){
+        this.username = username
+        this.password = password
+    }
+}
 
 describe('The server', () => {
 
@@ -41,9 +50,9 @@ describe('The server', () => {
         // .then(res => res.status)
         .then(res => {
             expect(res.status).toEqual(401)
-            console.log("Right we got a error 0f 404 status!!!!!!!!!!!!!!!!")
+            console.log("Right we got a error 0f 401 status!!!!!!!!!!!!!!!!")
         })
-        .catch(err => console.log("Did not give 404 error"))
+        .catch(err => console.log("Did not give 401 error"))
     })
 })
 
