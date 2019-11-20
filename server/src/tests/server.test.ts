@@ -15,7 +15,7 @@ MOCK_DATA[1] = {
 describe('The server', () => {
 
     it('fetches without crashing', () => {
-        fetch(url)
+        fetch(url + "/question")
         .then(res => res.json())
         .then(json => {
             console.log("We got:" + JSON.stringify(json) + " from get")
@@ -25,7 +25,7 @@ describe('The server', () => {
     })
     
     it('can post some data', () => {
-        fetch(url,
+        fetch(url + "/question",
             {
                 method:'POST', body:JSON.stringify(MOCK_DATA[1]), headers: { 'Content-Type': 'application/json' }})
         .then(res => res.json())
@@ -34,6 +34,16 @@ describe('The server', () => {
             expect(json).toBeDefined()
         })
         .catch(err => console.log("Error!:", err))
+    })
+    
+    it('response status gives a 401 error', () => {
+        fetch(url + "/check")
+        // .then(res => res.status)
+        .then(res => {
+            expect(res.status).toEqual(401)
+            console.log("Right we got a error 0f 404 status!!!!!!!!!!!!!!!!")
+        })
+        .catch(err => console.log("Did not give 404 error"))
     })
 })
 

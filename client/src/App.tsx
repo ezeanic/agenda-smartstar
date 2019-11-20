@@ -20,9 +20,9 @@ export class UpButton extends React.Component <{entry:QuestionEntry, clickHandle
       //console.log("reaching up")
     //replace the alert functions with the actual upVote and notUpVote funcitons
      let entry = this.props.entry
-    if(entry.canUpVote == true && entry.canDownVote == true){
+    if(entry.canUpVote === true && entry.canDownVote === true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':like'}>Like</button>
-    } else if(entry.canUpVote == false && entry.canDownVote == true){
+    } else if(entry.canUpVote === false && entry.canDownVote === true){
       return <button onClick={this.props.clickHandler} type="button" id={entry._id + ':unLike'}>unLike</button>
     } else {
       return <button type="button" id={entry._id + ':like'}>Like</button>
@@ -36,9 +36,9 @@ export class DownButton extends React.Component <{entry:QuestionEntry, clickHand
   public render() {
     //replace the alert functions with the actual downVote and notDownVote funcitons
      let entry = this.props.entry
-      if(entry.canDownVote == true && entry.canUpVote == true){
+      if(entry.canDownVote === true && entry.canUpVote === true){
         return <button onClick={this.props.clickHandler}  type="button" id={entry._id + ":dislike"}>Dislike</button>
-      } else if(entry.canDownVote == false && entry.canUpVote == true){
+      } else if(entry.canDownVote === false && entry.canUpVote === true){
         return <button onClick={this.props.clickHandler} type="button" id={entry._id + ":unDislike"}>unDislike</button>
       } else {
         return <button type="button" id={entry._id + ':dislike'}>Dislike</button>
@@ -166,14 +166,14 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
         let count:number = 0
         let i:number = 0
         for(i; i < questionText.length; i++){
-            if(questionText.charAt(i) ==  ' '){
+            if(questionText.charAt(i) ===  ' '){
                 count++;
             }
         }
-        if(count == questionText.length && count != 0) {
+        if(count === questionText.length && count !== 0) {
             return
         }
-        else if(questionText.charAt(0) == ' ' ){
+        else if(questionText.charAt(0) === ' ' ){
             return
         }
         else { 

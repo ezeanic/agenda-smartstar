@@ -19,7 +19,7 @@ pipeline {
           }
           stage("Test Server") {
                steps {
-                    sh "cd server && docker run --rm --net my-app-net --link test_api_1:api -e \"API_URL=http://api:3001/question\" agenda_api yarn test"
+                    sh "cd server && docker run --rm --net my-app-net --link test_api_1:api -e \"API_URL=http://api:3001\" agenda_api yarn test"
                }
           }
           stage("Tear Down") {

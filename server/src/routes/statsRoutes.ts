@@ -23,7 +23,7 @@ export class StatsRoutes {
             console.log(`Request type: ${req.method}`)
             console.log("request object" + 
             next()
-        }, this.statsController.getQuestionsStats) 
+        )}, this.statsController.getQuestionsStats) 
         .post(this.statsController.getQuestionsStats)
   
 
