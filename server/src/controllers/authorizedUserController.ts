@@ -13,9 +13,11 @@ export class UserController{
                 console.log(err)
                 done(err,false);
             } else if(userlist.length === 0){
+                console.log("should have a password")
                 done(null, false)
-            } else if(userlist[0].password == hash){
+            } else if(userlist[0].password === hash){
                 done(null, {userName:userName})
+                console.log("Hashed password is correct")
             } else {
                 done(null, false)
             }

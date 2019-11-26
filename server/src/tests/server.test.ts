@@ -1,4 +1,9 @@
 import fetch from 'node-fetch'
+import * as mongoose from 'mongoose';
+import { AuthorizedUserSchema } from '../models/authorizedUserModel';
+import {UserController} from '../controllers/authorizedUserController';
+
+
 
 let url=process.env.API_URL
 
@@ -11,15 +16,6 @@ MOCK_DATA[0] = {
 MOCK_DATA[1] = {
     question: 'HOW IS THIS QUESTION??'
                     }
-class MockUser{
-    public username: string
-    public password: string
-
-    public user(username: string, password: string){
-        this.username = username
-        this.password = password
-    }
-}
 
 describe('The server', () => {
 
@@ -54,5 +50,20 @@ describe('The server', () => {
         })
         .catch(err => console.log("Did not give 401 error"))
     })
+    
+    
+    // it('Expect the user to be defined', done => {
+    //     const AuthorizedUser = mongoose.model('User', AuthorizedUserSchema);
+
+    //     let usercontrol = new UserController()
+    //     let user: any
+    //     let error: any
+    //     console.log("I reached here")
+    //     usercontrol.getUserIdPassword('chijioke', '787995ee388dd170bdb9cc986d3c6ab5a1229a72dae0c8eae4dd3a77a32d86f0', (error, user)=> {
+    //         console.log("I am here")
+    //         expect(user).toBeDefined()
+    //         done()
+    //     })
+    // })
 })
 

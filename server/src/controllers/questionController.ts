@@ -52,5 +52,4 @@ export class QuestionController{
             res.json({ message: 'Successfully deleted Question!'});
         });
     }
-    
 }
