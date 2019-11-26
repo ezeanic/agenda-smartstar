@@ -1,0 +1,4 @@
+
+<h1> Sequence Diagram for Merging </h1>
+
+![Sequence diagram for merging](https://www.plantuml.com/plantuml/img/RP71Ri8m38RlVWgBUr-WXueX9CGPqCvEQbX4ccQsCwblJs1qgc2d9F_toNQIjHg9bI42UHi5Jye2OC4Yuu6_2oVFUAvWOBc4T06u6qrt24EEV2GNkKKVWxygZWbTCHiJB6ZJRHvPjIX6rCm-d0FtM6khXIh_ygRxoBd5VVB20oVJFm59X2Qe-AMji1L9hnwuiQIUPCBL9plSdVOh9BslpnB5BGPIdCzGZINT1isH9WNeoSYHCcwV6u1PQxevQsjx_nL-M1zFjRpWVx9owjzDMDUuViOD)
