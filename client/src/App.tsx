@@ -175,8 +175,8 @@ export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:str
   }
 
   public render(){
-    return <select onChange = {this.handleSortChange}>
-      <option selected hidden>Sort By</option>
+    return <select onChange = {this.handleSortChange} defaultValue='Most recent'>
+      <option hidden>Sort By</option>
       <option id="byDate">Most recent</option>
       <option id="abc">Alphabetical</option>
       <option id="likes">Most likes</option>
@@ -242,8 +242,8 @@ export class BatchingDropDown extends React.Component<{onBatchSizeChange:(id:str
   }
 
   public render(){
-    return <select onChange={this.handleBatchSizeChange}>
-    <option selected hidden>Show all</option>
+    return <select onChange={this.handleBatchSizeChange} defaultValue='Show all'>
+    <option>Show all</option>
     <option id="five">Show 5 Questions</option>
     <option id="ten">Show 10 Questions</option>
     <option id="twenty">Show 20 Questions</option>

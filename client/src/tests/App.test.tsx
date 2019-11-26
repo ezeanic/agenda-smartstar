@@ -86,12 +86,12 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
         let appInstance = theApp.instance() as App
-        let oldLikeCount=appInstance.state.questionList[0].numUpVotes // get the current numUpVotes
-        let theID = appInstance.state.questionList[0]._id
+        let oldLikeCount=appInstance.state.questionList[2].numUpVotes // get the current numUpVotes
+        let theID = appInstance.state.questionList[2]._id
         let theUpButton = theApp.find('[id="' + theID + ':like"]')  // find the button & click it
         theUpButton.simulate('click')
 
-        expect(appInstance.state.questionList[0].numUpVotes).toEqual(oldLikeCount+1)
+        expect(appInstance.state.questionList[2].numUpVotes).toEqual(oldLikeCount+1)
     })
 
     it('unable to click downVote when already upVoted', () => {
