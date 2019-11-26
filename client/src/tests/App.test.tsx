@@ -3,13 +3,20 @@ import * as ReactDOM from 'react-dom'
 import App, {UpButton, DownButton, SimpleTable, InputBar} from '../App'
 import {QuestionMOCK_DATA} from '../Mockdata'
 import ReactSixteenAdapter from 'enzyme-adapter-react-16'
-import { configure, shallow, mount } from 'enzyme'
+import { configure, shallow, mount,ReactWrapper } from 'enzyme'
 import {QuestionEntry} from '../QuestionEntry'
 //import Question
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 //@ts-ignore //ReactSixteenAdapter has a constructor
 configure({ adapter: new ReactSixteenAdapter() });
-
+function genBatchTest(it:jest.It,batch:number,start:number,end:number){
+    return it(`should batch by ${batch} starting at ${start} and ending at ${end}`,()=>{
+            const mockData= QuestionMOCK_DATA
+            let table = mount(<SimpleTable batch={batch} end={end} start={start} entries={mockData} filterText={''} sortBy={''} clickHandler={()=>{}}/>)
+            let expected = (start==0&&end==0)?QuestionMOCK_DATA.length:end>QuestionMOCK_DATA.length?QuestionMOCK_DATA.length-start:batch
+            expect(table.render().children().children().length).toBe(expected+1)
+    })
+}
 describe('App UI tests', () => {
 
     it('is in test mode', () => {
@@ -24,7 +31,7 @@ describe('App UI tests', () => {
 
     it('upButton handles like click', () => {
         let fn = jest.fn()
-        const anEntry = QuestionMOCK_DATA[0]
+        const anEntry = QuestionMOCK_DATA[1]
         let myUpButton = mount(<UpButton entry={anEntry} clickHandler={fn}/>)
         myUpButton.simulate('click')
         expect(fn).toBeCalled()
@@ -32,7 +39,7 @@ describe('App UI tests', () => {
 
     it('downButton handles click', () => {
         let fn = jest.fn()
-        const anEntry = QuestionMOCK_DATA[0]
+        const anEntry = QuestionMOCK_DATA[1]
         let myDownButton = mount(<DownButton entry={anEntry} clickHandler={fn}/>)
         myDownButton.simulate('click')
         expect(fn).toBeCalled()
@@ -41,7 +48,7 @@ describe('App UI tests', () => {
     it('click handler is installed in button', () => {
         let fn = jest.fn()
         const mockData = QuestionMOCK_DATA
-        let theApp = mount(<SimpleTable filterText = {""} entries={mockData} clickHandler={fn}/>)
+        let theApp = mount(<SimpleTable filterText = {""} entries={mockData} clickHandler={fn} batch={20} start={0} end={20} sortBy={"abc"} />)
         let theUpButton = theApp.find('[id="acbxyz0002:unLike"]')
         theUpButton.simulate('click')
         expect(fn).toBeCalled()
@@ -116,14 +123,51 @@ describe('App UI tests', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
         let appInstance = theApp.instance() as App
+        appInstance.handleSortChange('likes')
         let flag = true
-          for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
-            if(appInstance.state.questionList[ix].numUpVotes < appInstance.state.questionList[ix+1].numUpVotes)
-            flag = false
-          }
-        expect(flag)
+        for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
+          if(appInstance.state.questionList[ix].numUpVotes < appInstance.state.questionList[ix+1].numUpVotes)
+          flag = false
+        }
+        
+        expect(flag).toBe(true)
     })
-
+    it('list sorted by downvotes', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleSortChange('dislikes')
+        let flag = true
+        for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
+            if(appInstance.state.questionList[ix].numDownVotes < appInstance.state.questionList[ix+1].numDownVotes)
+            flag = false
+        }
+        expect(flag).toBe(true)
+    })
+    it('list sorted by name', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleSortChange('abc')
+        let flag = true
+        for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
+            if(appInstance.state.questionList[ix].question < appInstance.state.questionList[ix+1].question)
+            flag = false
+        }
+        expect(flag).toBe(true)
+    })
+    it('list sorted by date posted', () => {
+        const mockData = QuestionMOCK_DATA
+        let theApp = mount(<App testQList={mockData} api_url={''}/>)
+        let appInstance = theApp.instance() as App
+        appInstance.handleSortChange('byDate')
+        let flag = true
+        for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
+            if(appInstance.state.questionList[ix].postDate < appInstance.state.questionList[ix+1].postDate)
+            flag = false
+        }
+        expect(flag).toBe(true)
+    })
     it('user tries to write a space first', () => {
         const mockData = QuestionMOCK_DATA
         let theApp = mount(<App testQList={mockData} api_url={''}/>)
@@ -176,7 +220,11 @@ describe('App UI tests', () => {
         appInstance.handleQuestionTextChange('        t       r')
         //console.log(q5)
         expect(appInstance.state.questionText).toEqual("")
-
     }) 
+    genBatchTest(it, 2, 0, 0)
+    genBatchTest(it, 2, 0, 2)
+    genBatchTest(it, 2, 2, 4)
+    genBatchTest(it, 2, 4, 6)
+    genBatchTest(it, 3, 1, 4)
 })
 
