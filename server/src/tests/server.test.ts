@@ -2,7 +2,23 @@ import fetch from 'node-fetch'
 import * as mongoose from 'mongoose';
 import { AuthorizedUserSchema } from '../models/authorizedUserModel';
 import {UserController} from '../controllers/authorizedUserController';
+import { time } from 'console';
+// import sinon from './node_modules/sinon/pkg/sinon-esm.js';
 
+// module.exports = {
+//     testEnvironment: 'node'
+// };
+
+// // time.js
+// exports.setTimeout = function() {
+//     return global.setTimeout.apply(global, arguments);
+//   };
+  
+//   // Tests
+  
+//   const timetest = new time();
+//   let synon ;//= new sinon()
+//   synon.stub(timetest, 'setTimeout');
 
 
 let url=process.env.API_URL
@@ -52,18 +68,19 @@ describe('The server', () => {
     })
     
     
-    // it('Expect the user to be defined', done => {
-    //     const AuthorizedUser = mongoose.model('User', AuthorizedUserSchema);
+    it('Expect the user to be defined', done => {
 
-    //     let usercontrol = new UserController()
-    //     let user: any
-    //     let error: any
-    //     console.log("I reached here")
-    //     usercontrol.getUserIdPassword('chijioke', '787995ee388dd170bdb9cc986d3c6ab5a1229a72dae0c8eae4dd3a77a32d86f0', (error, user)=> {
-    //         console.log("I am here")
-    //         expect(user).toBeDefined()
-    //         done()
-    //     })
-    // })
+        let usercontrol = new UserController()
+        let user: any
+        let error: any
+        console.log("I reached here")
+        debugger
+        usercontrol.getUserIdPassword('chijioke', '787995ee388dd170bdb9cc986d3c6ab5a1229a72dae0c8eae4dd3a77a32d86f0', (error, user)=> {
+            expect(user).toBeDefined()
+            console.log("I am here")
+            done()
+            
+        })
+    })
 })
 

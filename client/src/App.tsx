@@ -90,13 +90,15 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
     let entries = this.props.entries
     let i = 0
 
-    if(this.props.sortBy == "abc"){
+    if(this.props.sortBy === "abc"){
       //sort alphabetically
       entries.sort(function(a:any, b:any){
-        if (b.question < a.question){
+        let quest1 = a.question.toString().toLowerCase()
+        let quest2 = b.question.toString().toLowerCase()
+        if (quest2 > quest1){
           return -1
         }
-        else if (b.question > a.question){
+        else if (quest2 < quest1){
           return 1
         }
         else{
@@ -163,6 +165,27 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
       </table>
   }
 }
+
+// export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
+//   constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
+//     super(props);
+//     this.handleSortChange = this.handleSortChange.bind(this)
+//   }
+
+//   public handleSortChange =(e: React.ChangeEvent<HTMLSelectElement>) => {
+//     this.props.onDropDownMenuChange(e.target.selectedOptions[0].id)
+//   }
+
+//   public render(){
+//     return <select onChange = {this.handleSortChange} defaultValue='Most recent'>
+//       <option hidden>Sort By</option>
+//       <option id="byDate">Most recent</option>
+//       <option id="abc">Alphabetical</option>
+//       <option id="likes">Most likes</option>
+//       <option id="dislikes">Most dislikes</option>
+//     </select>
+//   }
+// }
 
 export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
   constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
