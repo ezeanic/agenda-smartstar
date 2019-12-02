@@ -151,7 +151,7 @@ describe('App UI tests', () => {
         appInstance.handleSortChange('abc')
         let flag = true
         for(let ix = 0; ix <  appInstance.state.questionList.length -2; ix++){
-            if(appInstance.state.questionList[ix].question < appInstance.state.questionList[ix+1].question)
+            if(appInstance.state.questionList[ix].question.toLowerCase() > appInstance.state.questionList[ix+1].question.toLowerCase())
             flag = false
         }
         expect(flag).toBe(true)
