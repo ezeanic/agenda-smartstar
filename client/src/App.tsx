@@ -5,7 +5,6 @@ import {FetchQuestions,PostQuestions, UpVote, DownVote, NotUpVote, NotDownVote} 
 
 import {QuestionMOCK_DATA} from './Mockdata'
 import logo from './logo.svg';
-import { throwStatement, tsExpressionWithTypeArguments } from '@babel/types';
 
 type AppProps = {api_url: string, testQList?:QuestionEntry[]}
 type InputBarProps = {onQuestionTextChange:(value:string)=>void, onQuestionSubmitChange:()=>void, questionText:string} //just added to create props for input bar
@@ -105,15 +104,15 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
           return 0
         }
       })
-    }else if(this.props.sortBy == "likes"){
+    }else if(this.props.sortBy === "likes"){
       entries.sort(function(a:any, b:any){
         return b.numUpVotes - a.numUpVotes
       })
-    }else if(this.props.sortBy == "dislikes"){
+    }else if(this.props.sortBy === "dislikes"){
       entries.sort(function(a:any, b:any){
         return b.numDownVotes - a.numDownVotes
       })
-    }else if(this.props.sortBy == "byDate"){
+    }else if(this.props.sortBy === "byDate"){
       entries.sort(function(a:any, b:any){
         if (b.postDate < a.postDate){
           return -1
@@ -133,7 +132,7 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
       }    
     searchQuestions.push(entry)})
 
-    if(this.props.start == 0 && this.props.end == 0){
+    if(this.props.start === 0 && this.props.end === 0){
       for(i = 0; i < searchQuestions.length; i++){
         rows.push(<tr key={i}><td className="App-table">{searchQuestions[i].question}</td>
         <td className="App-table"><UpButton entry={searchQuestions[i]} clickHandler={this.props.clickHandler}/><span>{searchQuestions[i].numUpVotes}</span></td>
@@ -165,27 +164,6 @@ export class SimpleTable extends React.Component <{filterText:string, entries:Qu
       </table>
   }
 }
-
-// export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
-//   constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
-//     super(props);
-//     this.handleSortChange = this.handleSortChange.bind(this)
-//   }
-
-//   public handleSortChange =(e: React.ChangeEvent<HTMLSelectElement>) => {
-//     this.props.onDropDownMenuChange(e.target.selectedOptions[0].id)
-//   }
-
-//   public render(){
-//     return <select onChange = {this.handleSortChange} defaultValue='Most recent'>
-//       <option hidden>Sort By</option>
-//       <option id="byDate">Most recent</option>
-//       <option id="abc">Alphabetical</option>
-//       <option id="likes">Most likes</option>
-//       <option id="dislikes">Most dislikes</option>
-//     </select>
-//   }
-// }
 
 export class SortDropDown extends React.Component <{onDropDownMenuChange:(id:string )=>void}>{
   constructor(props:{onDropDownMenuChange:(id:string)=>void} ){
@@ -442,13 +420,13 @@ class App extends React.Component <AppProps, {questionList: QuestionEntry[], que
   }
 
   public onBatchSizeChange = (id:string) =>{
-    if(id == 'five'){
+    if(id === 'five'){
       this.setState({batchSize:5, start:0, end:5})
-    }else if(id == 'ten'){
+    }else if(id === 'ten'){
       this.setState({batchSize:10, start:0, end:10})
-    }else if(id == 'twenty'){
+    }else if(id === 'twenty'){
       this.setState({batchSize:20, start:0, end:20})
-    }else if(id == 'fifty'){
+    }else if(id === 'fifty'){
       this.setState({batchSize:50, start:0, end:50})
     }
     this.setState({setNextDisabled:false})

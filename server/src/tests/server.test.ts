@@ -2,23 +2,6 @@ import fetch from 'node-fetch'
 import * as mongoose from 'mongoose';
 import { AuthorizedUserSchema } from '../models/authorizedUserModel';
 import {UserController} from '../controllers/authorizedUserController';
-import { time } from 'console';
-// import sinon from './node_modules/sinon/pkg/sinon-esm.js';
-
-// module.exports = {
-//     testEnvironment: 'node'
-// };
-
-// // time.js
-// exports.setTimeout = function() {
-//     return global.setTimeout.apply(global, arguments);
-//   };
-  
-//   // Tests
-  
-//   const timetest = new time();
-//   let synon ;//= new sinon()
-//   synon.stub(timetest, 'setTimeout');
 
 
 let url=process.env.API_URL
